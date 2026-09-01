@@ -68,7 +68,7 @@ Tasks 1 and 2 are independent of each other. Task 4 is optional/independent and 
 
 ## Status
 
-Not Started
+In Progress
 
 ## Acceptance Criteria
 
