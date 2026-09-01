@@ -37,29 +37,25 @@ describe("intake store", () => {
       "Mild <5/day"
     );
 
-    useStore
-      .getState()
-      .answer(step, {
-        ...useStore.getState().answers.C.habits,
-        smoking: false,
-      });
+    useStore.getState().answer(step, {
+      ...useStore.getState().answers.C.habits,
+      smoking: false,
+    });
     expect(useStore.getState().answers.C.habits.smoking_severity).toBeNull();
   });
 
   it("answer() on products auto-nulls a row's dependent fields when used flips false", () => {
     const useStore = createIntakeStore();
     const step = { section: "D" as const, questionKey: "products" };
-    useStore
-      .getState()
-      .answer(step, [
-        {
-          row: "Topical Minoxidil",
-          used: true,
-          duration: "3-6mo",
-          helped: true,
-          side_effects: false,
-        },
-      ]);
+    useStore.getState().answer(step, [
+      {
+        row: "Topical Minoxidil",
+        used: true,
+        duration: "3-6mo",
+        helped: true,
+        side_effects: false,
+      },
+    ]);
     expect(useStore.getState().answers.D.products[0].duration).toBe("3-6mo");
 
     useStore

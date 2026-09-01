@@ -17,9 +17,9 @@ Stack: Next.js 15 (App Router, TS) + Tailwind + Framer Motion + Zustand + Vitest
 | [GR-003](./GR-003-form-engine-core.md)             | Form engine core (branching/visibility)  | In Progress (PR #2) | GR-002                                                 |
 | [GR-004](./GR-004-inference-rules-engine.md)       | Inference & auto-skip rules              | In Progress (PR #2) | GR-002                                                 |
 | [GR-005](./GR-005-output-assembler-validator.md)   | Output assembler & validator             | In Progress (PR #2) | GR-002, GR-003                                         |
-| [GR-006](./GR-006-onboarding-stepper-shell.md)     | Onboarding + single-scroll stepper shell | Not Started         | GR-003                                                 |
-| [GR-007](./GR-007-core-input-primitives.md)        | Core input primitives                    | Not Started         | GR-002, GR-004                                         |
-| [GR-008](./GR-008-icon-microinteraction-system.md) | Icon & micro-interaction system          | Not Started         | GR-001                                                 |
+| [GR-006](./GR-006-onboarding-stepper-shell.md)     | Onboarding + single-scroll stepper shell | In Progress (PR #3) | GR-003                                                 |
+| [GR-007](./GR-007-core-input-primitives.md)        | Core input primitives                    | In Progress (PR #3) | GR-002, GR-004                                         |
+| [GR-008](./GR-008-icon-microinteraction-system.md) | Icon & micro-interaction system          | In Progress (PR #3) | GR-001                                                 |
 | [GR-009](./GR-009-scalp-diagram-pattern-picker.md) | Interactive scalp diagram (Q4)           | Not Started         | GR-002, GR-007, GR-008                                 |
 | [GR-010](./GR-010-table-as-cards-flow.md)          | Table-as-cards flow (Q11–Q13)            | Not Started         | GR-002, GR-003, GR-004, GR-007, GR-008                 |
 | [GR-011](./GR-011-voice-input.md)                  | Voice input capture                      | Not Started         | GR-007, GR-008                                         |

@@ -38,7 +38,7 @@ Tasks 1–4 are fully independent and can be built in parallel by separate agent
 
 ## Status
 
-Not Started
+In Progress
 
 ## Acceptance Criteria
 
