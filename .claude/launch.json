@@ -1,0 +1,15 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "genoroot-dev",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": [
+        "-c",
+        "source ~/.nvm/nvm.sh && nvm use 20 >/dev/null 2>&1 && npm run dev"
+      ],
+      "port": 3000,
+      "autoPort": true
+    }
+  ]
+}
