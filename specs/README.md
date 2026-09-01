@@ -66,8 +66,6 @@ graph TD
   GR008 --> GR011
   GR008 --> GR013
 
-  GR010 --> GR010
-
   GR006 --> GR016[GR-016 Responsive/a11y]
   GR009 --> GR016
   GR010 --> GR016
