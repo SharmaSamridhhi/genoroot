@@ -14,9 +14,9 @@ Stack: Next.js 15 (App Router, TS) + Tailwind + Framer Motion + Zustand + Vitest
 | -------------------------------------------------- | ---------------------------------------- | ------------------- | ------------------------------------------------------ |
 | [GR-001](./GR-001-project-scaffolding.md)          | Project scaffolding & tooling            | In Progress (PR #1) | —                                                      |
 | [GR-002](./GR-002-domain-schema-types.md)          | Domain schema & types                    | In Progress (PR #1) | GR-001                                                 |
-| [GR-003](./GR-003-form-engine-core.md)             | Form engine core (branching/visibility)  | Not Started         | GR-002                                                 |
-| [GR-004](./GR-004-inference-rules-engine.md)       | Inference & auto-skip rules              | Not Started         | GR-002                                                 |
-| [GR-005](./GR-005-output-assembler-validator.md)   | Output assembler & validator             | Not Started         | GR-002, GR-003                                         |
+| [GR-003](./GR-003-form-engine-core.md)             | Form engine core (branching/visibility)  | In Progress (PR #2) | GR-002                                                 |
+| [GR-004](./GR-004-inference-rules-engine.md)       | Inference & auto-skip rules              | In Progress (PR #2) | GR-002                                                 |
+| [GR-005](./GR-005-output-assembler-validator.md)   | Output assembler & validator             | In Progress (PR #2) | GR-002, GR-003                                         |
 | [GR-006](./GR-006-onboarding-stepper-shell.md)     | Onboarding + single-scroll stepper shell | Not Started         | GR-003                                                 |
 | [GR-007](./GR-007-core-input-primitives.md)        | Core input primitives                    | Not Started         | GR-002, GR-004                                         |
 | [GR-008](./GR-008-icon-microinteraction-system.md) | Icon & micro-interaction system          | Not Started         | GR-001                                                 |
@@ -28,7 +28,7 @@ Stack: Next.js 15 (App Router, TS) + Tailwind + Framer Motion + Zustand + Vitest
 | [GR-014](./GR-014-review-output-screen.md)         | Review / "page 2" output screen          | Not Started         | GR-002, GR-005                                         |
 | [GR-015](./GR-015-local-persistence.md)            | Local persistence (resume/reset)         | Not Started         | GR-002, GR-003                                         |
 | [GR-016](./GR-016-responsive-accessibility.md)     | Responsive & accessibility pass          | Not Started         | GR-006, GR-007, GR-009, GR-010, GR-011, GR-013, GR-014 |
-| [GR-017](./GR-017-persona-test-suite.md)           | Persona test suite (correctness proof)   | Not Started         | GR-002, GR-003, GR-004, GR-005                         |
+| [GR-017](./GR-017-persona-test-suite.md)           | Persona test suite (correctness proof)   | In Progress (PR #2) | GR-002, GR-003, GR-004, GR-005                         |
 | [GR-018](./GR-018-deploy-judge-readme.md)          | Deploy + judge-facing README             | Not Started         | all functional specs                                   |
 
 ## Project-level dependency graph

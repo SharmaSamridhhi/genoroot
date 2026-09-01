@@ -51,7 +51,7 @@ Tasks 1–6 are fully independent fixtures and can be written in parallel by sep
 
 ## Status
 
-Not Started
+In Progress
 
 ## Acceptance Criteria
 
