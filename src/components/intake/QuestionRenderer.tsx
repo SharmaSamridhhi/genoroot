@@ -1,8 +1,8 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { useIntakeStore } from "@/lib/engine/store";
-import type { StepId } from "@/lib/engine/steps";
+import { stepEquals, type StepId } from "@/lib/engine/steps";
 import { isStepAnswered } from "@/lib/engine/completeness";
 import { INTAKE_SCHEMA, type Question } from "@/lib/schema/intake-schema";
 import type { Answers } from "@/lib/schema/types";
@@ -50,6 +50,20 @@ export function QuestionRenderer({ step }: { step: StepId }) {
   const answer = useIntakeStore((s) => s.answer);
   const next = useIntakeStore((s) => s.next);
 
+  // Belt-and-suspenders cleanup for the autoAdvance timer below — on its own this
+  // isn't sufficient (AnimatePresence keeps an exiting instance mounted for the
+  // full ~250ms exit animation, which is *longer* than the 220ms autoAdvance
+  // delay, so unmount-based cancellation alone can lose the race). The real guard
+  // is the live-step comparison inside the timer callback itself.
+  const pendingAdvanceRef = useRef<number | null>(null);
+  useEffect(() => {
+    return () => {
+      if (pendingAdvanceRef.current !== null) {
+        window.clearTimeout(pendingAdvanceRef.current);
+      }
+    };
+  }, []);
+
   const def = findQuestionDef(step);
   if (!def) return null;
 
@@ -65,7 +79,15 @@ export function QuestionRenderer({ step }: { step: StepId }) {
     setValue(v);
     // Small delay so the selection's own feedback animation is visible before the
     // step transitions away — an instant jump-cut would undercut the "snappy" feel.
-    window.setTimeout(() => next(), 220);
+    // Only actually advances if `step` (captured here) is still the live current
+    // step when the timer fires — if the patient has already navigated away (e.g.
+    // hit Back before this fires), this becomes a no-op instead of silently
+    // shoving them forward from wherever they ended up.
+    pendingAdvanceRef.current = window.setTimeout(() => {
+      if (stepEquals(useIntakeStore.getState().currentStep, step)) {
+        next();
+      }
+    }, 220);
   }
 
   let control: ReactNode = null;
