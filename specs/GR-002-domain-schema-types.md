@@ -120,7 +120,7 @@ Tasks 1 and 2 are independent and can be written in parallel.
 
 ## Status
 
-Not Started
+In Progress — [PR #1](https://github.com/SharmaSamridhhi/genoroot/pull/1) open
 
 ## Acceptance Criteria
 
