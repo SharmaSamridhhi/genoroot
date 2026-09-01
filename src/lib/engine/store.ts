@@ -7,8 +7,9 @@ import type {
 } from "@/lib/schema/types";
 import {
   applyExclusiveSelection,
-  clearDependentFields,
   clearHabitsDependentFields,
+  clearProcedureRowDependents,
+  clearProductRowDependents,
 } from "@/lib/rules";
 import { getNextStep, getPrevStep, type StepId } from "./steps";
 import { getProgress, isComplete, type Progress } from "./completeness";
@@ -80,14 +81,14 @@ export function createIntakeStore(): IntakeStore {
       }
       if (step.questionKey === "products") {
         answers.D.products = (value as ProductRow[]).map((row) =>
-          clearDependentFields(row)
+          clearProductRowDependents(row)
         );
         set({ answers });
         return;
       }
       if (step.questionKey === "procedures") {
         answers.D.procedures = (value as ProcedureRow[]).map((row) =>
-          clearDependentFields(row)
+          clearProcedureRowDependents(row)
         );
         set({ answers });
         return;

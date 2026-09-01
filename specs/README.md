@@ -20,11 +20,11 @@ Stack: Next.js 15 (App Router, TS) + Tailwind + Framer Motion + Zustand + Vitest
 | [GR-006](./GR-006-onboarding-stepper-shell.md)     | Onboarding + single-scroll stepper shell | In Progress (PR #3) | GR-003                                                 |
 | [GR-007](./GR-007-core-input-primitives.md)        | Core input primitives                    | In Progress (PR #3) | GR-002, GR-004                                         |
 | [GR-008](./GR-008-icon-microinteraction-system.md) | Icon & micro-interaction system          | In Progress (PR #3) | GR-001                                                 |
-| [GR-009](./GR-009-scalp-diagram-pattern-picker.md) | Interactive scalp diagram (Q4)           | Not Started         | GR-002, GR-007, GR-008                                 |
-| [GR-010](./GR-010-table-as-cards-flow.md)          | Table-as-cards flow (Q11–Q13)            | Not Started         | GR-002, GR-003, GR-004, GR-007, GR-008                 |
+| [GR-009](./GR-009-scalp-diagram-pattern-picker.md) | Interactive scalp diagram (Q4)           | In Progress (PR #4) | GR-002, GR-007, GR-008                                 |
+| [GR-010](./GR-010-table-as-cards-flow.md)          | Table-as-cards flow (Q11–Q13)            | In Progress (PR #4) | GR-002, GR-003, GR-004, GR-007, GR-008                 |
 | [GR-011](./GR-011-voice-input.md)                  | Voice input capture                      | Not Started         | GR-007, GR-008                                         |
 | [GR-012](./GR-012-llm-parse-route-groq.md)         | Groq parse route + confirm UI            | Not Started         | GR-001, GR-002                                         |
-| [GR-013](./GR-013-consent-screen.md)               | Consent screen (Q16)                     | Not Started         | GR-007, GR-008                                         |
+| [GR-013](./GR-013-consent-screen.md)               | Consent screen (Q16)                     | In Progress (PR #4) | GR-007, GR-008                                         |
 | [GR-014](./GR-014-review-output-screen.md)         | Review / "page 2" output screen          | Not Started         | GR-002, GR-005                                         |
 | [GR-015](./GR-015-local-persistence.md)            | Local persistence (resume/reset)         | Not Started         | GR-002, GR-003                                         |
 | [GR-016](./GR-016-responsive-accessibility.md)     | Responsive & accessibility pass          | Not Started         | GR-006, GR-007, GR-009, GR-010, GR-011, GR-013, GR-014 |

@@ -18,14 +18,18 @@ export function clearIfFalse<T extends object>(
   return result;
 }
 
-export function clearDependentFields(row: ProductRow): ProductRow;
-export function clearDependentFields(row: ProcedureRow): ProcedureRow;
-export function clearDependentFields(
-  row: ProductRow | ProcedureRow
-): ProductRow | ProcedureRow {
-  if ("used" in row) {
-    return clearIfFalse(row, "used", ["duration", "helped", "side_effects"]);
-  }
+// Two explicit functions rather than one overload that guesses the row's shape
+// from its own keys (e.g. `"used" in row`) — that heuristic breaks for a row
+// still being filled in interactively (TableCardFlow commits partial row
+// objects field-by-field), where an unanswered product row has no `used` key
+// yet and would be misdetected as a procedure row, injecting a stray
+// `sessions` field. The call site always knows which table it's in, so it
+// should say so rather than have this function infer it.
+export function clearProductRowDependents(row: ProductRow): ProductRow {
+  return clearIfFalse(row, "used", ["duration", "helped", "side_effects"]);
+}
+
+export function clearProcedureRowDependents(row: ProcedureRow): ProcedureRow {
   return clearIfFalse(row, "done", ["sessions", "helped"]);
 }
 

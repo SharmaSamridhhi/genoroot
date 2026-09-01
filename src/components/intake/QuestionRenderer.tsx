@@ -12,6 +12,16 @@ import {
   TextInput,
   YesNoSwipeCard,
 } from "@/components/inputs";
+import {
+  ConsentScreen,
+  ScalpPatternPicker,
+  TableCardFlow,
+  getHabitsRowConfigs,
+  getUniformRowConfigs,
+  habitsToRows,
+  rowsToHabits,
+  withRowLabels,
+} from "@/components/questions";
 import { questionLabel } from "./question-copy";
 
 type RenderableDef = Question | { type: "single" | "text"; options?: string[] };
@@ -41,8 +51,10 @@ function getValue(step: StepId, answers: Answers): unknown {
 }
 
 // Only the question types that don't auto-advance need an explicit Continue button —
-// multi-select and text take multiple actions before the patient is "done", and the
-// table placeholder needs a way to move on until GR-010 lands.
+// multi-select, number, and text take multiple actions before the patient is
+// "done", and a table needs an explicit way to leave once every row is answered
+// (TableCardFlow auto-advances *within* itself; this button leaves the whole
+// table question).
 const NEEDS_CONTINUE_BUTTON = new Set(["multi", "number", "text", "table"]);
 
 export function QuestionRenderer({ step }: { step: StepId }) {
@@ -110,23 +122,35 @@ export function QuestionRenderer({ step }: { step: StepId }) {
       );
       break;
     case "multi":
-      control = (
-        <ChipSelect
-          questionKey={step.questionKey}
-          options={def.options ?? []}
-          mode="multi"
-          value={value as string[] | null}
-          onChange={setValue}
-        />
-      );
+      control =
+        step.questionKey === "pattern" ? (
+          <ScalpPatternPicker
+            value={(value as string[] | null) ?? []}
+            onChange={setValue}
+          />
+        ) : (
+          <ChipSelect
+            questionKey={step.questionKey}
+            options={def.options ?? []}
+            mode="multi"
+            value={value as string[] | null}
+            onChange={setValue}
+          />
+        );
       break;
     case "yesno":
-      control = (
-        <YesNoSwipeCard
-          value={value as boolean | null}
-          onChange={(v) => autoAdvance(v)}
-        />
-      );
+      control =
+        step.questionKey === "consent" ? (
+          <ConsentScreen
+            value={value as boolean | null}
+            onChange={(v) => autoAdvance(v)}
+          />
+        ) : (
+          <YesNoSwipeCard
+            value={value as boolean | null}
+            onChange={(v) => autoAdvance(v)}
+          />
+        );
       break;
     case "text":
       control = (
@@ -138,18 +162,39 @@ export function QuestionRenderer({ step }: { step: StepId }) {
         />
       );
       break;
-    case "table":
+    case "table": {
+      const tableKey = step.questionKey as "habits" | "products" | "procedures";
+      const rowConfigs =
+        tableKey === "habits"
+          ? getHabitsRowConfigs()
+          : getUniformRowConfigs(tableKey);
+      const tableValue =
+        tableKey === "habits"
+          ? habitsToRows(
+              answers.C.habits as Record<string, unknown>,
+              rowConfigs
+            )
+          : ((answers.D[tableKey] as Record<string, unknown>[]) ?? []);
+
       control = (
-        <div className="rounded-lg border border-dashed border-neutral-300 p-6 text-center text-neutral-500 dark:border-neutral-700">
-          This question is answered as a quick card-by-card flow — coming in a
-          later build (GR-010).
-        </div>
+        <TableCardFlow
+          rows={rowConfigs}
+          value={tableValue}
+          onChange={(rows) =>
+            setValue(
+              tableKey === "habits"
+                ? rowsToHabits(rows)
+                : withRowLabels(rows, rowConfigs)
+            )
+          }
+        />
       );
       break;
+    }
   }
 
   const showContinue = NEEDS_CONTINUE_BUTTON.has(def.type);
-  const continueDisabled = def.type !== "table" && !answered;
+  const continueDisabled = !answered;
 
   return (
     <div className="flex flex-col gap-6">

@@ -10,6 +10,10 @@ export const DURATION = {
 
 export const EASE = [0.22, 1, 0.36, 1] as const; // one shared "snappy settle" curve
 
+// How long a one-tap answer (chip/yes-no) lingers, showing its own selection
+// feedback, before auto-advancing — used by QuestionRenderer and TableCardFlow.
+export const AUTO_ADVANCE_DELAY_MS = 220;
+
 export function prefersReducedMotion(): boolean {
   if (typeof window === "undefined") return false;
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
