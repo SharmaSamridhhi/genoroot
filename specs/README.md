@@ -10,26 +10,26 @@ Stack: Next.js 15 (App Router, TS) + Tailwind + Framer Motion + Zustand + Vitest
 
 ## Specs
 
-| ID                                                 | Title                                    | Status      | Depends on                                             |
-| -------------------------------------------------- | ---------------------------------------- | ----------- | ------------------------------------------------------ |
-| [GR-001](./GR-001-project-scaffolding.md)          | Project scaffolding & tooling            | Not Started | —                                                      |
-| [GR-002](./GR-002-domain-schema-types.md)          | Domain schema & types                    | Not Started | GR-001                                                 |
-| [GR-003](./GR-003-form-engine-core.md)             | Form engine core (branching/visibility)  | Not Started | GR-002                                                 |
-| [GR-004](./GR-004-inference-rules-engine.md)       | Inference & auto-skip rules              | Not Started | GR-002                                                 |
-| [GR-005](./GR-005-output-assembler-validator.md)   | Output assembler & validator             | Not Started | GR-002, GR-003                                         |
-| [GR-006](./GR-006-onboarding-stepper-shell.md)     | Onboarding + single-scroll stepper shell | Not Started | GR-003                                                 |
-| [GR-007](./GR-007-core-input-primitives.md)        | Core input primitives                    | Not Started | GR-002, GR-004                                         |
-| [GR-008](./GR-008-icon-microinteraction-system.md) | Icon & micro-interaction system          | Not Started | GR-001                                                 |
-| [GR-009](./GR-009-scalp-diagram-pattern-picker.md) | Interactive scalp diagram (Q4)           | Not Started | GR-002, GR-007, GR-008                                 |
-| [GR-010](./GR-010-table-as-cards-flow.md)          | Table-as-cards flow (Q11–Q13)            | Not Started | GR-002, GR-003, GR-004, GR-007, GR-008                 |
-| [GR-011](./GR-011-voice-input.md)                  | Voice input capture                      | Not Started | GR-007, GR-008                                         |
-| [GR-012](./GR-012-llm-parse-route-groq.md)         | Groq parse route + confirm UI            | Not Started | GR-001, GR-002                                         |
-| [GR-013](./GR-013-consent-screen.md)               | Consent screen (Q16)                     | Not Started | GR-007, GR-008                                         |
-| [GR-014](./GR-014-review-output-screen.md)         | Review / "page 2" output screen          | Not Started | GR-002, GR-005                                         |
-| [GR-015](./GR-015-local-persistence.md)            | Local persistence (resume/reset)         | Not Started | GR-002, GR-003                                         |
-| [GR-016](./GR-016-responsive-accessibility.md)     | Responsive & accessibility pass          | Not Started | GR-006, GR-007, GR-009, GR-010, GR-011, GR-013, GR-014 |
-| [GR-017](./GR-017-persona-test-suite.md)           | Persona test suite (correctness proof)   | Not Started | GR-002, GR-003, GR-004, GR-005                         |
-| [GR-018](./GR-018-deploy-judge-readme.md)          | Deploy + judge-facing README             | Not Started | all functional specs                                   |
+| ID                                                 | Title                                    | Status              | Depends on                                             |
+| -------------------------------------------------- | ---------------------------------------- | ------------------- | ------------------------------------------------------ |
+| [GR-001](./GR-001-project-scaffolding.md)          | Project scaffolding & tooling            | In Progress (PR #1) | —                                                      |
+| [GR-002](./GR-002-domain-schema-types.md)          | Domain schema & types                    | In Progress (PR #1) | GR-001                                                 |
+| [GR-003](./GR-003-form-engine-core.md)             | Form engine core (branching/visibility)  | Not Started         | GR-002                                                 |
+| [GR-004](./GR-004-inference-rules-engine.md)       | Inference & auto-skip rules              | Not Started         | GR-002                                                 |
+| [GR-005](./GR-005-output-assembler-validator.md)   | Output assembler & validator             | Not Started         | GR-002, GR-003                                         |
+| [GR-006](./GR-006-onboarding-stepper-shell.md)     | Onboarding + single-scroll stepper shell | Not Started         | GR-003                                                 |
+| [GR-007](./GR-007-core-input-primitives.md)        | Core input primitives                    | Not Started         | GR-002, GR-004                                         |
+| [GR-008](./GR-008-icon-microinteraction-system.md) | Icon & micro-interaction system          | Not Started         | GR-001                                                 |
+| [GR-009](./GR-009-scalp-diagram-pattern-picker.md) | Interactive scalp diagram (Q4)           | Not Started         | GR-002, GR-007, GR-008                                 |
+| [GR-010](./GR-010-table-as-cards-flow.md)          | Table-as-cards flow (Q11–Q13)            | Not Started         | GR-002, GR-003, GR-004, GR-007, GR-008                 |
+| [GR-011](./GR-011-voice-input.md)                  | Voice input capture                      | Not Started         | GR-007, GR-008                                         |
+| [GR-012](./GR-012-llm-parse-route-groq.md)         | Groq parse route + confirm UI            | Not Started         | GR-001, GR-002                                         |
+| [GR-013](./GR-013-consent-screen.md)               | Consent screen (Q16)                     | Not Started         | GR-007, GR-008                                         |
+| [GR-014](./GR-014-review-output-screen.md)         | Review / "page 2" output screen          | Not Started         | GR-002, GR-005                                         |
+| [GR-015](./GR-015-local-persistence.md)            | Local persistence (resume/reset)         | Not Started         | GR-002, GR-003                                         |
+| [GR-016](./GR-016-responsive-accessibility.md)     | Responsive & accessibility pass          | Not Started         | GR-006, GR-007, GR-009, GR-010, GR-011, GR-013, GR-014 |
+| [GR-017](./GR-017-persona-test-suite.md)           | Persona test suite (correctness proof)   | Not Started         | GR-002, GR-003, GR-004, GR-005                         |
+| [GR-018](./GR-018-deploy-judge-readme.md)          | Deploy + judge-facing README             | Not Started         | all functional specs                                   |
 
 ## Project-level dependency graph
 
@@ -65,8 +65,6 @@ graph TD
   GR008 --> GR010
   GR008 --> GR011
   GR008 --> GR013
-
-  GR010 --> GR010
 
   GR006 --> GR016[GR-016 Responsive/a11y]
   GR009 --> GR016

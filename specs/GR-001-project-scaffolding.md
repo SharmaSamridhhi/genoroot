@@ -64,7 +64,7 @@ Tasks 2–6 are independent of each other and can run in parallel once T1 is don
 
 ## Status
 
-Not Started
+In Progress — [PR #1](https://github.com/SharmaSamridhhi/genoroot/pull/1) open
 
 ## Acceptance Criteria
 
