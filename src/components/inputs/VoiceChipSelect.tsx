@@ -80,22 +80,22 @@ export function VoiceChipSelect({
       </div>
 
       {isListening && (
-        <p className="text-sm text-neutral-500" aria-live="polite">
+        <p className="text-ink-soft text-sm" aria-live="polite">
           {transcript || "Listening…"}
         </p>
       )}
 
-      {processing && <p className="text-sm text-neutral-500">Matching that…</p>}
+      {processing && <p className="text-ink-soft text-sm">Matching that…</p>}
 
       {suggested.length > 0 && (
-        <div className="flex flex-wrap items-center gap-2 rounded-lg border border-indigo-300 bg-indigo-50 p-3 text-sm dark:border-indigo-800 dark:bg-indigo-950/40">
+        <div className="border-copper-soft bg-sage flex flex-wrap items-center gap-2 rounded-lg border p-3 text-sm">
           <span>Did you mean:</span>
           {suggested.map((option) => (
             <button
               key={option}
               type="button"
               onClick={() => acceptSuggestion(option)}
-              className="min-h-11 rounded-full bg-indigo-600 px-3 py-1 text-white"
+              className="bg-gradient-root-solid min-h-11 rounded-full px-3 py-1 text-white"
             >
               {option}
             </button>
@@ -103,7 +103,7 @@ export function VoiceChipSelect({
           <button
             type="button"
             onClick={() => setSuggested([])}
-            className="ml-auto text-neutral-500 underline underline-offset-2"
+            className="text-ink-soft ml-auto underline underline-offset-2"
           >
             Dismiss
           </button>

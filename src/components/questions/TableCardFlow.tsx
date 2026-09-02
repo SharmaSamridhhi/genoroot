@@ -84,7 +84,7 @@ export function TableCardFlow({ rows, value, onChange }: TableCardFlowProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between text-sm text-neutral-500">
+      <div className="text-ink-soft flex items-center justify-between text-sm">
         <span>
           Row {clampedRowIndex + 1} of {rows.length} · {row.label}
         </span>
@@ -141,7 +141,7 @@ export function TableCardFlow({ rows, value, onChange }: TableCardFlowProps) {
             <button
               type="button"
               onClick={() => advanceFrom(rowAnswer, field.key)}
-              className="min-h-11 rounded-full bg-indigo-600 px-6 py-3 text-base font-medium text-white"
+              className="bg-gradient-root-solid min-h-11 rounded-full px-6 py-3 text-base font-medium text-white"
             >
               Next
             </button>

@@ -34,7 +34,7 @@ export function NumberInput({
         type="button"
         aria-label="Decrease"
         onClick={() => step(-1)}
-        className="flex h-11 w-11 items-center justify-center rounded-full border border-neutral-300 text-xl leading-none hover:border-indigo-400 dark:border-neutral-700"
+        className="border-line text-ink-soft hover:border-copper flex h-11 w-11 items-center justify-center rounded-full border text-xl leading-none"
       >
         −
       </button>
@@ -45,13 +45,13 @@ export function NumberInput({
         min={min}
         max={max}
         onChange={(e) => handleInput(e.target.value)}
-        className="h-11 w-24 rounded-lg border border-neutral-300 text-center text-lg dark:border-neutral-700 dark:bg-neutral-900"
+        className="border-line bg-card text-ink focus:border-copper h-11 w-24 rounded-lg border text-center font-mono text-lg focus:outline-none"
       />
       <button
         type="button"
         aria-label="Increase"
         onClick={() => step(1)}
-        className="flex h-11 w-11 items-center justify-center rounded-full border border-neutral-300 text-xl leading-none hover:border-indigo-400 dark:border-neutral-700"
+        className="border-line text-ink-soft hover:border-copper flex h-11 w-11 items-center justify-center rounded-full border text-xl leading-none"
       >
         +
       </button>

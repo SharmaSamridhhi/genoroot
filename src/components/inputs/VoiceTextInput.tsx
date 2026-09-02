@@ -62,29 +62,27 @@ export function VoiceTextInput({
       </div>
 
       {isListening && (
-        <p className="text-sm text-neutral-500" aria-live="polite">
+        <p className="text-ink-soft text-sm" aria-live="polite">
           {transcript || "Listening…"}
         </p>
       )}
 
-      {processing && (
-        <p className="text-sm text-neutral-500">Cleaning that up…</p>
-      )}
+      {processing && <p className="text-ink-soft text-sm">Cleaning that up…</p>}
 
       {suggestion && !isListening && !processing && (
-        <div className="flex items-center gap-2 rounded-lg border border-indigo-300 bg-indigo-50 p-3 text-sm dark:border-indigo-800 dark:bg-indigo-950/40">
+        <div className="border-copper-soft bg-sage flex items-center gap-2 rounded-lg border p-3 text-sm">
           <span className="flex-1">{suggestion}</span>
           <button
             type="button"
             onClick={acceptSuggestion}
-            className="min-h-11 rounded-full bg-indigo-600 px-3 py-1 text-white"
+            className="bg-gradient-root-solid min-h-11 rounded-full px-3 py-1 text-white"
           >
             Use this
           </button>
           <button
             type="button"
             onClick={() => setSuggestion(null)}
-            className="text-neutral-500 underline underline-offset-2"
+            className="text-ink-soft underline underline-offset-2"
           >
             Dismiss
           </button>

@@ -60,17 +60,22 @@ export function ReviewFlow() {
   }
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-2xl flex-col gap-6 px-4 py-8">
+    <div className="mx-auto flex min-h-screen max-w-2xl flex-col gap-6 px-4 py-8 lg:max-w-3xl lg:py-16">
       <header className="flex flex-col gap-1">
-        <h1 className="text-2xl font-semibold">Intake complete</h1>
-        <p className="text-neutral-500">
+        <h1 className="text-ink font-sans text-2xl font-light lg:text-4xl">
+          Intake{" "}
+          <em className="font-display text-gradient-root font-medium italic not-italic">
+            complete
+          </em>
+        </h1>
+        <p className="text-ink-soft">
           Here&apos;s what {output.patient.name || "the patient"} shared, ready
           for the doctor.
         </p>
       </header>
 
       {!output.sections.E.consent && (
-        <div className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-200">
+        <div className="border-copper-soft bg-linen-2 text-copper-deep rounded-lg border p-3 text-sm">
           Sample collection requires consent — patient declined.
         </div>
       )}
@@ -83,8 +88,8 @@ export function ReviewFlow() {
           onClick={() => setView("summary")}
           className={`min-h-11 rounded-full border px-4 py-2 text-sm font-medium ${
             view === "summary"
-              ? "border-indigo-600 bg-indigo-600 text-white"
-              : "border-neutral-300 dark:border-neutral-700"
+              ? "bg-gradient-root-solid border-transparent text-white"
+              : "border-line text-ink"
           }`}
         >
           Summary
@@ -96,8 +101,8 @@ export function ReviewFlow() {
           onClick={() => setView("json")}
           className={`min-h-11 rounded-full border px-4 py-2 text-sm font-medium ${
             view === "json"
-              ? "border-indigo-600 bg-indigo-600 text-white"
-              : "border-neutral-300 dark:border-neutral-700"
+              ? "bg-gradient-root-solid border-transparent text-white"
+              : "border-line text-ink"
           }`}
         >
           Raw JSON
@@ -110,25 +115,25 @@ export function ReviewFlow() {
         <JsonView json={json} />
       )}
 
-      <div className="mt-4 flex flex-wrap gap-2 border-t border-neutral-200 pt-4 dark:border-neutral-800">
+      <div className="border-line mt-4 flex flex-wrap gap-2 border-t pt-4">
         <button
           type="button"
           onClick={handleCopy}
-          className="min-h-11 rounded-full border border-neutral-300 px-4 py-2 text-sm font-medium dark:border-neutral-700"
+          className="border-line text-ink min-h-11 rounded-full border px-4 py-2 text-sm font-medium"
         >
           {copied ? "Copied!" : "Copy JSON"}
         </button>
         <button
           type="button"
           onClick={handleDownload}
-          className="min-h-11 rounded-full border border-neutral-300 px-4 py-2 text-sm font-medium dark:border-neutral-700"
+          className="border-line text-ink min-h-11 rounded-full border px-4 py-2 text-sm font-medium"
         >
           Download JSON
         </button>
         <button
           type="button"
           onClick={handleStartOver}
-          className="min-h-11 rounded-full border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-500 dark:border-neutral-700"
+          className="border-line text-ink-soft min-h-11 rounded-full border px-4 py-2 text-sm font-medium"
         >
           Start over
         </button>

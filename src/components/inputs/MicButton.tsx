@@ -44,8 +44,8 @@ export function MicButton({
         className={[
           "flex h-11 w-11 shrink-0 items-center justify-center rounded-full border",
           isListening
-            ? "border-red-500 bg-red-50 text-red-600 dark:bg-red-950/40"
-            : "border-neutral-300 hover:border-indigo-400 dark:border-neutral-700",
+            ? "border-red-500 bg-red-50 text-red-600"
+            : "border-line text-ink-soft hover:border-copper",
         ].join(" ")}
       >
         <IconMic size={18} animate={false} />
