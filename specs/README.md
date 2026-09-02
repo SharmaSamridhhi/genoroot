@@ -25,8 +25,8 @@ Stack: Next.js 15 (App Router, TS) + Tailwind + Framer Motion + Zustand + Vitest
 | [GR-011](./GR-011-voice-input.md)                  | Voice input capture                      | In Progress (PR #5) | GR-007, GR-008                                         |
 | [GR-012](./GR-012-llm-parse-route-groq.md)         | Groq parse route + confirm UI            | In Progress (PR #5) | GR-001, GR-002                                         |
 | [GR-013](./GR-013-consent-screen.md)               | Consent screen (Q16)                     | In Progress (PR #4) | GR-007, GR-008                                         |
-| [GR-014](./GR-014-review-output-screen.md)         | Review / "page 2" output screen          | Not Started         | GR-002, GR-005                                         |
-| [GR-015](./GR-015-local-persistence.md)            | Local persistence (resume/reset)         | Not Started         | GR-002, GR-003                                         |
+| [GR-014](./GR-014-review-output-screen.md)         | Review / "page 2" output screen          | In Progress (PR #6) | GR-002, GR-005                                         |
+| [GR-015](./GR-015-local-persistence.md)            | Local persistence (resume/reset)         | In Progress (PR #6) | GR-002, GR-003                                         |
 | [GR-016](./GR-016-responsive-accessibility.md)     | Responsive & accessibility pass          | Not Started         | GR-006, GR-007, GR-009, GR-010, GR-011, GR-013, GR-014 |
 | [GR-017](./GR-017-persona-test-suite.md)           | Persona test suite (correctness proof)   | In Progress (PR #2) | GR-002, GR-003, GR-004, GR-005                         |
 | [GR-018](./GR-018-deploy-judge-readme.md)          | Deploy + judge-facing README             | Not Started         | all functional specs                                   |

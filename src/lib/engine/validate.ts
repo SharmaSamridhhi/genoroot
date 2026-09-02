@@ -1,7 +1,6 @@
 import type { Answers, PatientProfile } from "@/lib/schema/types";
-import { getVisibleSteps, type StepId } from "./steps";
+import { getVisibleSteps, ONBOARDING_STEP, type StepId } from "./steps";
 import { isStepAnswered } from "./completeness";
-import { ONBOARDING_STEP } from "./store";
 
 export interface ValidationResult {
   valid: boolean;

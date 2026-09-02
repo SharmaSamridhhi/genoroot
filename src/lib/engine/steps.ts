@@ -7,6 +7,11 @@ export interface StepId {
   subKey?: string;
 }
 
+export const ONBOARDING_STEP: StepId = {
+  section: "onboarding",
+  questionKey: "profile",
+};
+
 export function stepEquals(a: StepId, b: StepId): boolean {
   return (
     a.section === b.section &&
