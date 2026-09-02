@@ -8,6 +8,7 @@ import {
   YesNoSwipeCard,
 } from "@/components/inputs";
 import { AUTO_ADVANCE_DELAY_MS, motionTransition } from "@/lib/motion/tokens";
+import { HabitRowArt } from "./HabitRowArt";
 import type { RowConfig, RowFieldConfig } from "./tableConfigs";
 
 interface TableCardFlowProps {
@@ -110,8 +111,9 @@ export function TableCardFlow({ rows, value, onChange }: TableCardFlowProps) {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={motionTransition(0.18)}
-        className="flex flex-col gap-4"
+        className="relative flex flex-col gap-4 overflow-hidden"
       >
+        <HabitRowArt habitKey={row.fields[0].key} />
         <h3 className="text-lg font-medium">{field.label}</h3>
 
         {field.type === "yesno" && (
