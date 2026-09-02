@@ -72,6 +72,16 @@ is obtainable in this environment either). Recommend a manual pass on a
 real device with mic access to confirm the visualizer and end-to-end
 dictation feel.
 
+**Update**: real-device testing did find a genuine problem with the first
+visualizer — 3 tiny (16px) bars driven by a single aggregate RMS level
+barely moved for normal speaking volume and didn't read as reacting to
+anything. Replaced with a 24-bar frequency-domain equalizer (own card,
+gradient-colored, glow on louder bars) driven by independent per-band
+levels with a perceptual (square-root) response curve instead of a flat
+linear one. Re-verified visually in this sandbox by rendering the exact
+markup/styles the component produces with sample frequency-band data
+standing in for real audio, since live audio still isn't reachable here.
+
 ## Acceptance Criteria
 
 - [x] Hovering or keyboard-focusing the mic button shows a tooltip with the
