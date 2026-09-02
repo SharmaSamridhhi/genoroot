@@ -41,7 +41,7 @@ Tasks 1 and 2 are independent and can be built in parallel.
 
 ## Status
 
-Not Started
+In Progress
 
 ## Acceptance Criteria
 

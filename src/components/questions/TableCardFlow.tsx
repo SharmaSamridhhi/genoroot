@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ChipSelect, TextInput, YesNoSwipeCard } from "@/components/inputs";
+import {
+  ChipSelect,
+  VoiceTextInput,
+  YesNoSwipeCard,
+} from "@/components/inputs";
 import { AUTO_ADVANCE_DELAY_MS, motionTransition } from "@/lib/motion/tokens";
 import type { RowConfig, RowFieldConfig } from "./tableConfigs";
 
@@ -129,7 +133,7 @@ export function TableCardFlow({ rows, value, onChange }: TableCardFlowProps) {
 
         {field.type === "text" && (
           <div className="flex flex-col items-start gap-3">
-            <TextInput
+            <VoiceTextInput
               value={(currentValue as string | null) ?? ""}
               onChange={(v) => updateField(field.key, v)}
               placeholder="Type here…"
