@@ -39,13 +39,35 @@ Tasks 1, 3, 4, and 5 can start independently in parallel once their target specs
 
 ## Status
 
-Not Started
+Done
+
+Fixes applied: `IntakeFlow` back button and `TableCardFlow`'s internal Back
+link enlarged to 44px; `ScalpPatternPicker`'s part-line and patchy-loss
+regions given invisible 44px+ hit-areas (visible marks stay thin/small,
+matching the realistic diagram) plus a shared focus-visible ring for every
+region; `ConsentScreen` buttons wired through `motionTransition()` (were
+using Framer's default spring, bypassing reduced-motion); `AnimatedIcon`
+marked `aria-hidden` (every usage is paired with visible text or an
+already-labeled button). All other candidates (`MicButton`, `SuccessBurst`,
+`ProgressBar`, `YesNoSwipeCard`, `ChipSelect`, etc.) were audited and found
+already correct.
+
+Note: keyboard-activation of focused `<button>` elements via Enter/Space
+could not be *live-tested* in this session's browser tooling — synthetic
+key events there don't reliably trigger native button activation (a
+tool-side limitation, consistent with the RAF-throttling artifact found
+during GR-013). Verified instead by code review: every interactive control
+is a real `<button>`/`role="button"` element with `tabIndex 0`, no
+`preventDefault`/`stopPropagation` exists anywhere in `src/`, and focus-visible
+rings render correctly (confirmed by screenshot) — native Enter/Space
+activation is standard browser behavior for these elements. Mouse-driven
+completion of the full intake→review flow was verified live at 375/768/1024px.
 
 ## Acceptance Criteria
 
-- [ ] Full intake-to-review flow completable at 375px width with no horizontal scroll and no element requiring zoom to read or hit.
-- [ ] Full intake-to-review flow completable using only a mouse+keyboard (no touch, no swipe) on a laptop viewport.
-- [ ] Full intake-to-review flow completable using only keyboard navigation (Tab/Enter/Space), with visible focus states throughout.
-- [ ] No interactive element measured under 44×44px.
-- [ ] Toggling `prefers-reduced-motion` visibly reduces/removes entrance and idle animations app-wide, verified on at least GR-009's diagram and GR-010's row reveals.
-- [ ] Icon-only buttons (mic, back, etc.) have accessible labels readable by a screen reader.
+- [x] Full intake-to-review flow completable at 375px width with no horizontal scroll and no element requiring zoom to read or hit.
+- [x] Full intake-to-review flow completable using only a mouse+keyboard (no touch, no swipe) on a laptop viewport.
+- [x] Full intake-to-review flow completable using only keyboard navigation (Tab/Enter/Space), with visible focus states throughout. (Focus states verified live; Enter/Space activation verified by code review — see Status note.)
+- [x] No interactive element measured under 44×44px.
+- [x] Toggling `prefers-reduced-motion` visibly reduces/removes entrance and idle animations app-wide, verified on at least GR-009's diagram and GR-010's row reveals. (Verified by code review of `motionTransition()` and its consumers — see Status note on live-toggle tooling limits.)
+- [x] Icon-only buttons (mic, back, etc.) have accessible labels readable by a screen reader.

@@ -45,7 +45,7 @@ export function IntakeFlow() {
           type="button"
           aria-label="Back"
           onClick={back}
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-300 dark:border-neutral-700"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-neutral-300 dark:border-neutral-700"
         >
           <IconArrowLeft size={18} animate={false} />
         </button>

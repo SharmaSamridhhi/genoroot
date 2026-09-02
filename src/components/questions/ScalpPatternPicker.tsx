@@ -18,6 +18,12 @@ const REGION_STYLE = {
     "fill-indigo-400/70 stroke-indigo-600 dark:fill-indigo-500/50 dark:stroke-indigo-400",
 };
 
+// Applied to every interactive SVG region: SVG shapes don't reliably get a
+// visible default focus ring across browsers the way <button> does, so this
+// is drawn explicitly for keyboard navigation (GR-016).
+const FOCUS_RING =
+  "cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600";
+
 export function ScalpPatternPicker({
   value,
   onChange,
@@ -31,7 +37,19 @@ export function ScalpPatternPicker({
   }
 
   const regionClass = (option: string) =>
-    `cursor-pointer transition-colors ${isActive(option) ? REGION_STYLE.active : REGION_STYLE.base} hover:stroke-indigo-500`;
+    `transition-colors ${isActive(option) ? REGION_STYLE.active : REGION_STYLE.base}`;
+
+  function regionProps(option: string, label: string) {
+    return {
+      onClick: () => toggle(option),
+      role: "button" as const,
+      tabIndex: 0,
+      "aria-pressed": isActive(option),
+      "aria-label": label,
+      onKeyDown: (e: React.KeyboardEvent) =>
+        (e.key === "Enter" || e.key === " ") && toggle(option),
+    };
+  }
 
   return (
     <div className="flex flex-col items-center gap-4">
@@ -45,103 +63,100 @@ export function ScalpPatternPicker({
       >
         {/* Diffuse thinning — the whole-scalp background; sits behind the more
             specific regions below, so a tap anywhere else on the head toggles
-            it, while a tap on hairline/crown/part-line hits that region instead. */}
+            it, while a tap on hairline/crown/part-line hits that region instead.
+            Already well over the 44px tap-target minimum on its own. */}
         <motion.ellipse
           cx={100}
           cy={112}
           rx={72}
           ry={96}
           strokeWidth={2}
-          className={regionClass("Diffuse thinning")}
+          className={`${regionClass("Diffuse thinning")} ${FOCUS_RING}`}
           whileTap={{ scale: 0.98 }}
           transition={motionTransition(0.15)}
-          onClick={() => toggle("Diffuse thinning")}
-          role="button"
-          tabIndex={0}
-          aria-pressed={isActive("Diffuse thinning")}
-          aria-label="Diffuse thinning — overall scalp"
-          onKeyDown={(e) =>
-            (e.key === "Enter" || e.key === " ") && toggle("Diffuse thinning")
-          }
+          {...regionProps(
+            "Diffuse thinning",
+            "Diffuse thinning — overall scalp"
+          )}
         />
 
-        {/* Hairline — front band */}
+        {/* Hairline — front band. Bounding box is ~110x60 units, already over
+            the 44px minimum in both dimensions. */}
         <motion.path
           d="M40 55 Q100 15 160 55 L150 75 Q100 45 50 75 Z"
           strokeWidth={2}
           strokeLinejoin="round"
-          className={regionClass("Receding hairline")}
+          className={`${regionClass("Receding hairline")} ${FOCUS_RING}`}
           whileTap={{ scale: 0.97 }}
           transition={motionTransition(0.15)}
-          onClick={() => toggle("Receding hairline")}
-          role="button"
-          tabIndex={0}
-          aria-pressed={isActive("Receding hairline")}
-          aria-label="Receding hairline — front"
-          onKeyDown={(e) =>
-            (e.key === "Enter" || e.key === " ") && toggle("Receding hairline")
-          }
+          {...regionProps("Receding hairline", "Receding hairline — front")}
         />
 
-        {/* Part line — vertical band down the middle */}
-        <motion.rect
-          x={92}
-          y={78}
-          width={16}
-          height={90}
-          strokeWidth={2}
-          className={regionClass("Widening part line")}
+        {/* Part line — the visible band stays narrow (16 units wide, a
+            realistic depiction), but a narrow band alone would fail the 44px
+            tap-target minimum. An invisible wider rect (40 units) shares the
+            same tap/focus handling via a group, so the hit area is generous
+            while the visible mark stays thin. */}
+        <motion.g
           whileTap={{ scale: 0.97 }}
           transition={motionTransition(0.15)}
-          onClick={() => toggle("Widening part line")}
-          role="button"
-          tabIndex={0}
-          aria-pressed={isActive("Widening part line")}
-          aria-label="Widening part line — center"
-          onKeyDown={(e) =>
-            (e.key === "Enter" || e.key === " ") && toggle("Widening part line")
-          }
-        />
+          className={FOCUS_RING}
+          {...regionProps("Widening part line", "Widening part line — center")}
+        >
+          <rect
+            x={80}
+            y={78}
+            width={40}
+            height={90}
+            fill="transparent"
+            stroke="none"
+          />
+          <rect
+            x={92}
+            y={78}
+            width={16}
+            height={90}
+            strokeWidth={2}
+            pointerEvents="none"
+            className={regionClass("Widening part line")}
+          />
+        </motion.g>
 
-        {/* Crown — back/vertex */}
+        {/* Crown — back/vertex. 52-unit diameter, already over the minimum. */}
         <motion.circle
           cx={100}
           cy={172}
           r={26}
           strokeWidth={2}
-          className={regionClass("Thinning at crown")}
+          className={`${regionClass("Thinning at crown")} ${FOCUS_RING}`}
           whileTap={{ scale: 0.95 }}
           transition={motionTransition(0.15)}
-          onClick={() => toggle("Thinning at crown")}
-          role="button"
-          tabIndex={0}
-          aria-pressed={isActive("Thinning at crown")}
-          aria-label="Thinning at crown — back of scalp"
-          onKeyDown={(e) =>
-            (e.key === "Enter" || e.key === " ") && toggle("Thinning at crown")
-          }
+          {...regionProps(
+            "Thinning at crown",
+            "Thinning at crown — back of scalp"
+          )}
         />
 
-        {/* Patchy loss — a couple of small freeform spots, simple toggle markers
-            rather than freeform placement (kept deliberately simple per spec). */}
-        <motion.circle
-          cx={65}
-          cy={130}
-          r={10}
-          strokeWidth={2}
-          strokeDasharray="3 2"
-          className={regionClass("Patchy loss")}
+        {/* Patchy loss — a small dashed dot is the intentional visual (subtle
+            marker, not a big blob), so the same invisible-wider-hit-area
+            group pattern as the part line applies here too. */}
+        <motion.g
           whileTap={{ scale: 0.9 }}
           transition={motionTransition(0.15)}
-          onClick={() => toggle("Patchy loss")}
-          role="button"
-          tabIndex={0}
-          aria-pressed={isActive("Patchy loss")}
-          aria-label="Patchy loss"
-          onKeyDown={(e) =>
-            (e.key === "Enter" || e.key === " ") && toggle("Patchy loss")
-          }
-        />
+          className={FOCUS_RING}
+          {...regionProps("Patchy loss", "Patchy loss")}
+        >
+          <circle cx={65} cy={130} r={22} fill="transparent" stroke="none" />
+          <circle
+            cx={65}
+            cy={130}
+            r={10}
+            strokeWidth={2}
+            strokeDasharray="3 2"
+            pointerEvents="none"
+            className={regionClass("Patchy loss")}
+          />
+        </motion.g>
       </svg>
 
       {/* Not spatial — rendered as a standalone chip alongside the diagram. */}
