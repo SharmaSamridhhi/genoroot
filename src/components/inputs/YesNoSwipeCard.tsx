@@ -1,12 +1,15 @@
 "use client";
 
+import { useCallback, useEffect, useRef } from "react";
 import {
   motion,
   useMotionValue,
   useTransform,
+  animate,
+  type AnimationPlaybackControls,
   type PanInfo,
 } from "framer-motion";
-import { motionTransition } from "@/lib/motion/tokens";
+import { motionTransition, prefersReducedMotion } from "@/lib/motion/tokens";
 
 interface YesNoSwipeCardProps {
   value: boolean | null;
@@ -14,6 +17,7 @@ interface YesNoSwipeCardProps {
 }
 
 const SWIPE_THRESHOLD = 80;
+const IDLE_BUZZ_KEYFRAMES = [0, -6, 6, -3, 0];
 
 // Swipe is an accelerator, not the only way in — the Yes/No buttons below are a
 // first-class, always-visible affordance so mouse/keyboard users (and the swipe
@@ -26,6 +30,30 @@ export function YesNoSwipeCard({ value, onChange }: YesNoSwipeCardProps) {
     [-150, 0, 150],
     ["rgba(193,114,62,0.16)", "rgba(0,0,0,0)", "rgba(47,107,79,0.16)"]
   );
+  const idleControls = useRef<AnimationPlaybackControls | null>(null);
+
+  // A quiet idle nudge left-right that hints "this card swipes" — stopped the
+  // instant a real drag starts (so it never fights the gesture's own control
+  // of the same motion value) and restarted once the card settles back to 0.
+  const startIdleBuzz = useCallback(() => {
+    if (prefersReducedMotion()) return;
+    idleControls.current = animate(x, IDLE_BUZZ_KEYFRAMES, {
+      duration: 1,
+      delay: 1.4,
+      repeat: Infinity,
+      repeatDelay: 3,
+      ease: "easeInOut",
+    });
+  }, [x]);
+
+  useEffect(() => {
+    startIdleBuzz();
+    return () => idleControls.current?.stop();
+  }, [startIdleBuzz]);
+
+  function handleDragStart() {
+    idleControls.current?.stop();
+  }
 
   function handleDragEnd(_: unknown, info: PanInfo) {
     if (info.offset.x > SWIPE_THRESHOLD) {
@@ -34,6 +62,7 @@ export function YesNoSwipeCard({ value, onChange }: YesNoSwipeCardProps) {
       onChange(false);
     }
     x.set(0);
+    startIdleBuzz();
   }
 
   return (
@@ -42,6 +71,7 @@ export function YesNoSwipeCard({ value, onChange }: YesNoSwipeCardProps) {
         drag="x"
         dragConstraints={{ left: 0, right: 0 }}
         dragElastic={0.7}
+        onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         style={{ x, rotate, background }}
         transition={motionTransition()}
