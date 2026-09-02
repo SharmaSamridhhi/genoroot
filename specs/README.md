@@ -31,6 +31,7 @@ Stack: Next.js 15 (App Router, TS) + Tailwind + Framer Motion + Zustand + Vitest
 | [GR-017](./GR-017-persona-test-suite.md)           | Persona test suite (correctness proof)      | Done (PR #2) | GR-002, GR-003, GR-004, GR-005                         |
 | [GR-018](./GR-018-deploy-judge-readme.md)          | Deploy + judge-facing README                | Done (PR #7) | all functional specs                                   |
 | [GR-019](./GR-019-visual-identity-redesign.md)     | Visual identity redesign ("Root to Growth") | Done (PR #8) | GR-016                                                 |
+| [GR-020](./GR-020-polish-and-flags.md)             | Late polish — clarity, feature flags, README | Done (PR #9) | GR-019                                                |
 
 ## Project-level dependency graph
 

@@ -12,7 +12,7 @@ import { ProgressBar } from "./ProgressBar";
 import { SectionHeader } from "./SectionHeader";
 import { useQuestionRender } from "./useQuestionRender";
 import { renderEmphasis } from "./renderEmphasis";
-import { RootLineArt } from "./RootLineArt";
+import { QuestionArt } from "./QuestionArt";
 
 export function IntakeFlow() {
   const currentStep = useIntakeStore((s) => s.currentStep);
@@ -77,7 +77,7 @@ export function IntakeFlow() {
           <h2 className="text-ink font-sans text-2xl leading-tight font-light lg:text-[2.75rem]">
             {renderEmphasis(question.label)}
           </h2>
-          <RootLineArt />
+          <QuestionArt questionKey={currentStep.questionKey} />
         </div>
 
         <div className="flex flex-col gap-6">

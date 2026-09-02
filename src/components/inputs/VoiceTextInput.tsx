@@ -5,6 +5,7 @@ import { TextInput } from "./TextInput";
 import { MicButton } from "./MicButton";
 import { useVoiceInput } from "@/lib/voice/useVoiceInput";
 import { interpretTranscript } from "@/lib/voice/interpretTranscript";
+import { ENABLE_VOICE } from "@/lib/featureFlags";
 
 interface VoiceTextInputProps {
   value: string;
@@ -41,6 +42,19 @@ export function VoiceTextInput({
   function acceptSuggestion() {
     if (suggestion) onChange(suggestion);
     setSuggestion(null);
+  }
+
+  // See VoiceChipSelect's identical note: ENABLE_VOICE never changes at
+  // runtime, so this early return after all hooks have run is safe.
+  if (!ENABLE_VOICE) {
+    return (
+      <TextInput
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        multiline={multiline}
+      />
+    );
   }
 
   return (

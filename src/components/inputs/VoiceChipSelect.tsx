@@ -6,6 +6,7 @@ import { MicButton } from "./MicButton";
 import { useVoiceInput } from "@/lib/voice/useVoiceInput";
 import { interpretTranscript } from "@/lib/voice/interpretTranscript";
 import { applyExclusiveSelection } from "@/lib/rules";
+import { ENABLE_VOICE } from "@/lib/featureFlags";
 
 interface VoiceChipSelectProps {
   questionKey: string;
@@ -56,6 +57,21 @@ export function VoiceChipSelect({
       );
     }
     setSuggested((current) => current.filter((o) => o !== option));
+  }
+
+  // ENABLE_VOICE is a build-time constant, never toggled at runtime, so this
+  // early return after all the hooks above have already run doesn't risk a
+  // conditional-hooks violation — same hooks every render, just the JSX.
+  if (!ENABLE_VOICE) {
+    return (
+      <ChipSelect
+        questionKey={questionKey}
+        options={options}
+        mode={mode}
+        value={value}
+        onChange={onChange}
+      />
+    );
   }
 
   return (
