@@ -8,6 +8,7 @@ import {
   YesNoSwipeCard,
 } from "@/components/inputs";
 import { AUTO_ADVANCE_DELAY_MS, motionTransition } from "@/lib/motion/tokens";
+import { HabitRowArt } from "./HabitRowArt";
 import type { RowConfig, RowFieldConfig } from "./tableConfigs";
 
 interface TableCardFlowProps {
@@ -84,7 +85,7 @@ export function TableCardFlow({ rows, value, onChange }: TableCardFlowProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between text-sm text-neutral-500">
+      <div className="text-ink-soft flex items-center justify-between text-sm">
         <span>
           Row {clampedRowIndex + 1} of {rows.length} · {row.label}
         </span>
@@ -110,8 +111,9 @@ export function TableCardFlow({ rows, value, onChange }: TableCardFlowProps) {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={motionTransition(0.18)}
-        className="flex flex-col gap-4"
+        className="relative flex flex-col gap-4 overflow-hidden"
       >
+        <HabitRowArt habitKey={row.fields[0].key} />
         <h3 className="text-lg font-medium">{field.label}</h3>
 
         {field.type === "yesno" && (
@@ -141,7 +143,7 @@ export function TableCardFlow({ rows, value, onChange }: TableCardFlowProps) {
             <button
               type="button"
               onClick={() => advanceFrom(rowAnswer, field.key)}
-              className="min-h-11 rounded-full bg-indigo-600 px-6 py-3 text-base font-medium text-white"
+              className="bg-gradient-root-solid min-h-11 rounded-full px-6 py-3 text-base font-medium text-white"
             >
               Next
             </button>

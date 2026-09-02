@@ -55,8 +55,8 @@ export function ChipSelect({
             className={[
               "flex min-h-11 items-center gap-2 rounded-full border px-4 py-2 text-left text-base transition-colors",
               active
-                ? "border-indigo-600 bg-indigo-600 text-white"
-                : "border-neutral-300 bg-white text-neutral-800 hover:border-indigo-400 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100",
+                ? "bg-gradient-root-solid border-transparent text-white"
+                : "border-line bg-card text-ink hover:border-copper",
             ].join(" ")}
           >
             {active && <IconCheck size={16} animate={false} />}

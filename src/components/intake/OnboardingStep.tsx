@@ -35,20 +35,23 @@ export function OnboardingStep() {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={motionTransition()}
-      className="mx-auto flex max-w-md flex-col gap-6 px-4 py-10"
+      className="mx-auto flex max-w-md flex-col gap-6 px-4 py-10 lg:max-w-xl lg:py-24"
     >
       <div className="flex flex-col items-center gap-2 text-center">
-        <IconUser size={40} />
-        <h1 className="text-2xl font-semibold">
-          Let&apos;s get you checked in
+        <IconUser size={40} className="text-copper-deep" />
+        <h1 className="text-ink font-sans text-2xl font-light lg:text-4xl">
+          Let&apos;s get you{" "}
+          <em className="font-display text-gradient-root font-medium italic not-italic">
+            checked in
+          </em>
         </h1>
-        <p className="text-neutral-500">
+        <p className="text-ink-soft">
           Just a couple of things so we ask you the right next few questions.
         </p>
       </div>
 
       <label className="flex flex-col gap-1">
-        <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
+        <span className="text-ink-soft text-sm font-medium">
           Name <span className="font-normal">(optional)</span>
         </span>
         <input
@@ -56,28 +59,24 @@ export function OnboardingStep() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="e.g. Priya Sharma"
-          className="h-11 rounded-lg border border-neutral-300 p-3 text-base dark:border-neutral-700 dark:bg-neutral-900"
+          className="border-line bg-card text-ink focus:border-copper h-11 rounded-lg border p-3 text-base focus:outline-none"
         />
       </label>
 
       <label className="flex flex-col gap-1">
-        <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
-          Age
-        </span>
+        <span className="text-ink-soft text-sm font-medium">Age</span>
         <input
           type="number"
           inputMode="numeric"
           value={age}
           onChange={(e) => setAge(e.target.value)}
           placeholder="e.g. 32"
-          className="h-11 rounded-lg border border-neutral-300 p-3 text-base dark:border-neutral-700 dark:bg-neutral-900"
+          className="border-line bg-card text-ink focus:border-copper h-11 rounded-lg border p-3 text-base focus:outline-none"
         />
       </label>
 
       <div className="flex flex-col gap-2">
-        <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
-          Sex
-        </span>
+        <span className="text-ink-soft text-sm font-medium">Sex</span>
         <div className="flex flex-wrap gap-3" role="group">
           {SEX_OPTIONS.map((option) => (
             <button
@@ -89,8 +88,8 @@ export function OnboardingStep() {
               className={[
                 "min-h-11 rounded-full border px-4 py-2 text-base transition-colors",
                 sex === option
-                  ? "border-indigo-600 bg-indigo-600 text-white"
-                  : "border-neutral-300 bg-white text-neutral-800 hover:border-indigo-400 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100",
+                  ? "bg-gradient-root-solid border-transparent text-white"
+                  : "border-line bg-card text-ink hover:border-copper",
               ].join(" ")}
             >
               {option}
@@ -103,7 +102,7 @@ export function OnboardingStep() {
         type="button"
         disabled={!canContinue}
         onClick={handleContinue}
-        className="min-h-11 rounded-full bg-indigo-600 px-6 py-3 text-base font-medium text-white transition-opacity disabled:opacity-40"
+        className="bg-gradient-root-solid min-h-11 rounded-full px-6 py-3 text-base font-semibold text-white shadow-[0_14px_26px_-12px_rgba(157,90,47,0.45)] transition-opacity disabled:opacity-40"
       >
         Continue
       </button>

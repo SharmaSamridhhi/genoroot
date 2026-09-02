@@ -1,26 +1,81 @@
 @import "tailwindcss";
 
+/*
+ * "Root to Growth" — GenoRoot's visual identity (GR-019). One committed
+ * light theme, no prefers-color-scheme dark mode: warm linen/sage instead
+ * of neutral gray-on-white/black, a copper→moss gradient standing in for a
+ * single flat accent color everywhere an accent is needed.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-linen: #fbf5ef;
+  --color-linen-2: #f5ece1;
+  --color-sage: #eef2ea;
+  --color-sage-2: #e4ebe0;
+  --color-ink: #241d18;
+  --color-ink-soft: #5c5049;
+  --color-copper: #c1723e;
+  --color-copper-deep: #9c5a2f;
+  --color-copper-soft: #e8c9b0;
+  --color-moss: #2f6b4f;
+  --color-moss-deep: #204a37;
+  --color-line: #e4d9cd;
+  --color-card: #ffffff;
+  --gradient-root: linear-gradient(
+    115deg,
+    #c1723e 0%,
+    #c98a4f 30%,
+    #2f6b4f 100%
+  );
+  /* Darker copper stops than --gradient-root — for white text sitting
+     directly on the fill (buttons, active chips). The lighter gradient's
+     copper end only clears WCAG AA at large text sizes (used for the
+     text-gradient-root emphasis treatment); button-sized white text needs
+     this darker version to stay above 4.5:1 across the whole gradient. */
+  --gradient-root-solid: linear-gradient(
+    115deg,
+    #9c5a2f 0%,
+    #7d5233 30%,
+    #2f6b4f 100%
+  );
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-linen: var(--color-linen);
+  --color-linen-2: var(--color-linen-2);
+  --color-sage: var(--color-sage);
+  --color-sage-2: var(--color-sage-2);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-copper: var(--color-copper);
+  --color-copper-deep: var(--color-copper-deep);
+  --color-copper-soft: var(--color-copper-soft);
+  --color-moss: var(--color-moss);
+  --color-moss-deep: var(--color-moss-deep);
+  --color-line: var(--color-line);
+  --color-card: var(--color-card);
+
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-public-sans);
+  --font-mono: var(--font-plex-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@utility bg-gradient-root {
+  background-image: var(--gradient-root);
+}
+
+@utility bg-gradient-root-solid {
+  background-image: var(--gradient-root-solid);
+}
+
+@utility text-gradient-root {
+  background-image: var(--gradient-root);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-linen);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
 }

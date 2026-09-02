@@ -5,6 +5,7 @@ import { useIntakeStore } from "@/lib/engine/store";
 import { assembleOutput } from "@/lib/engine/assemble";
 import { ReviewFlow } from "@/components/review/ReviewFlow";
 import type { Answers, PatientProfile } from "@/lib/schema/types";
+import { fullText } from "../test-utils";
 
 const pushMock = vi.fn();
 vi.mock("next/navigation", () => ({
@@ -176,7 +177,7 @@ describe("ReviewFlow", () => {
       screen.getByText("Sample collection requires consent — patient declined.")
     ).toBeInTheDocument();
     // Still fully rendered, not replaced by an error state.
-    expect(screen.getByText("Intake complete")).toBeInTheDocument();
+    expect(screen.getByText(fullText("Intake complete"))).toBeInTheDocument();
   });
 
   it("shows no informational note when consent was given", () => {

@@ -1,6 +1,7 @@
 import { INTAKE_SCHEMA } from "@/lib/schema/intake-schema";
 import { SECTION_ICONS } from "@/components/icons/manifest";
 import { questionLabel } from "@/components/intake/question-copy";
+import { stripEmphasis } from "@/components/intake/renderEmphasis";
 import {
   getHabitsRowConfigs,
   getUniformRowConfigs,
@@ -8,6 +9,13 @@ import {
   type RowConfig,
 } from "@/components/questions/tableConfigs";
 import type { IntakeOutput } from "@/lib/schema/types";
+
+// This view's labels are small <dt> text, not headlines — the *phrase*
+// emphasis markers (GR-019) are for QuestionRenderer's big headlines only,
+// so this strips them back to plain text rather than rendering JSX emphasis.
+function label(key: string): string {
+  return stripEmphasis(questionLabel(key));
+}
 
 const SECTION_ORDER: ("A" | "B" | "C" | "D" | "E")[] = [
   "A",
@@ -37,16 +45,16 @@ function TableRowSummary({
   const showHeader = rowConfig.label !== rowConfig.fields[0]?.label;
 
   return (
-    <div className="rounded-lg border border-neutral-200 p-3 dark:border-neutral-800">
-      {showHeader && <p className="font-medium">{rowConfig.label}</p>}
+    <div className="border-line rounded-lg border p-3">
+      {showHeader && <p className="text-ink font-medium">{rowConfig.label}</p>}
       <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm">
         {rowConfig.fields.map((field) => {
           const value = rowData[field.key];
           if (value === null || value === undefined) return null;
           return (
             <div key={field.key} className="contents">
-              <dt className="text-neutral-500">{field.label}</dt>
-              <dd>{formatValue(value)}</dd>
+              <dt className="text-ink-soft">{field.label}</dt>
+              <dd className="text-ink">{formatValue(value)}</dd>
             </div>
           );
         })}
@@ -57,9 +65,9 @@ function TableRowSummary({
 
 function SimpleField({ label, value }: { label: string; value: unknown }) {
   return (
-    <div className="flex flex-col gap-0.5 border-b border-neutral-100 py-2 last:border-0 dark:border-neutral-900">
-      <dt className="text-sm text-neutral-500">{label}</dt>
-      <dd className="text-base">{formatValue(value)}</dd>
+    <div className="border-line/60 flex flex-col gap-0.5 border-b py-2 last:border-0">
+      <dt className="text-ink-soft text-sm">{label}</dt>
+      <dd className="text-ink text-base">{formatValue(value)}</dd>
     </div>
   );
 }
@@ -82,9 +90,9 @@ export function SummaryView({ output }: { output: IntakeOutput }) {
 
         return (
           <section key={sectionId} className="flex flex-col gap-3">
-            <div className="flex items-center gap-2 text-neutral-500">
+            <div className="text-moss-deep flex items-center gap-2">
               <Icon size={20} animate={false} />
-              <h2 className="text-sm font-semibold tracking-wide uppercase">
+              <h2 className="font-mono text-sm font-medium tracking-wide uppercase">
                 {section?.title}
               </h2>
             </div>
@@ -92,19 +100,19 @@ export function SummaryView({ output }: { output: IntakeOutput }) {
             {sectionId === "A" && (
               <dl>
                 <SimpleField
-                  label={questionLabel("age_hair_loss_began")}
+                  label={label("age_hair_loss_began")}
                   value={output.sections.A.age_hair_loss_began}
                 />
                 <SimpleField
-                  label={questionLabel("duration")}
+                  label={label("duration")}
                   value={output.sections.A.duration}
                 />
                 <SimpleField
-                  label={questionLabel("family_history")}
+                  label={label("family_history")}
                   value={output.sections.A.family_history}
                 />
                 <SimpleField
-                  label={questionLabel("pattern")}
+                  label={label("pattern")}
                   value={output.sections.A.pattern}
                 />
               </dl>
@@ -113,23 +121,23 @@ export function SummaryView({ output }: { output: IntakeOutput }) {
             {sectionId === "B" && (
               <dl>
                 <SimpleField
-                  label={questionLabel("diagnosed_conditions")}
+                  label={label("diagnosed_conditions")}
                   value={output.sections.B.diagnosed_conditions}
                 />
                 <SimpleField
-                  label={questionLabel("menstrual_cycle")}
+                  label={label("menstrual_cycle")}
                   value={output.sections.B.menstrual_cycle}
                 />
                 <SimpleField
-                  label={questionLabel("pregnancy_related")}
+                  label={label("pregnancy_related")}
                   value={output.sections.B.pregnancy_related}
                 />
                 <SimpleField
-                  label={questionLabel("adult_acne_oily_skin")}
+                  label={label("adult_acne_oily_skin")}
                   value={output.sections.B.adult_acne_oily_skin}
                 />
                 <SimpleField
-                  label={questionLabel("excess_body_facial_hair")}
+                  label={label("excess_body_facial_hair")}
                   value={output.sections.B.excess_body_facial_hair}
                 />
               </dl>
@@ -139,14 +147,12 @@ export function SummaryView({ output }: { output: IntakeOutput }) {
               <>
                 <dl>
                   <SimpleField
-                    label={questionLabel("past_6_months")}
+                    label={label("past_6_months")}
                     value={output.sections.C.past_6_months}
                   />
                 </dl>
                 <div className="flex flex-col gap-2">
-                  <p className="text-sm font-medium">
-                    {questionLabel("habits")}
-                  </p>
+                  <p className="text-sm font-medium">{label("habits")}</p>
                   {habitsToRows(
                     output.sections.C.habits as unknown as Record<
                       string,
@@ -167,9 +173,7 @@ export function SummaryView({ output }: { output: IntakeOutput }) {
             {sectionId === "D" && (
               <>
                 <div className="flex flex-col gap-2">
-                  <p className="text-sm font-medium">
-                    {questionLabel("products")}
-                  </p>
+                  <p className="text-sm font-medium">{label("products")}</p>
                   {output.sections.D.products.map((row, i) => (
                     <TableRowSummary
                       key={row.row}
@@ -179,9 +183,7 @@ export function SummaryView({ output }: { output: IntakeOutput }) {
                   ))}
                 </div>
                 <div className="flex flex-col gap-2">
-                  <p className="text-sm font-medium">
-                    {questionLabel("procedures")}
-                  </p>
+                  <p className="text-sm font-medium">{label("procedures")}</p>
                   {output.sections.D.procedures.map((row, i) => (
                     <TableRowSummary
                       key={row.row}
@@ -192,11 +194,11 @@ export function SummaryView({ output }: { output: IntakeOutput }) {
                 </div>
                 <dl>
                   <SimpleField
-                    label={questionLabel("past_treatment_side_effects")}
+                    label={label("past_treatment_side_effects")}
                     value={output.sections.D.past_treatment_side_effects}
                   />
                   <SimpleField
-                    label={questionLabel("describe")}
+                    label={label("describe")}
                     value={output.sections.D.describe}
                   />
                 </dl>
@@ -206,11 +208,11 @@ export function SummaryView({ output }: { output: IntakeOutput }) {
             {sectionId === "E" && (
               <dl>
                 <SimpleField
-                  label={questionLabel("sample_type")}
+                  label={label("sample_type")}
                   value={output.sections.E.sample_type}
                 />
                 <SimpleField
-                  label={questionLabel("consent")}
+                  label={label("consent")}
                   value={output.sections.E.consent}
                 />
               </dl>

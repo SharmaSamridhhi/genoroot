@@ -20,7 +20,7 @@ export function TextInput({
   onVoiceRequest,
 }: TextInputProps) {
   const sharedClasses =
-    "w-full rounded-lg border border-neutral-300 p-3 text-base dark:border-neutral-700 dark:bg-neutral-900";
+    "w-full rounded-lg border border-line bg-card p-3 text-base text-ink focus:border-copper focus:outline-none";
 
   return (
     <div className="flex items-start gap-2">
@@ -46,7 +46,7 @@ export function TextInput({
           type="button"
           aria-label="Speak your answer"
           onClick={onVoiceRequest}
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-neutral-300 hover:border-indigo-400 dark:border-neutral-700"
+          className="border-line text-ink-soft hover:border-copper flex h-11 w-11 shrink-0 items-center justify-center rounded-full border"
         >
           <IconMic size={18} animate={false} />
         </button>

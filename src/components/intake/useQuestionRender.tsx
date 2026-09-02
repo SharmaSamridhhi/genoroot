@@ -57,7 +57,21 @@ function getValue(step: StepId, answers: Answers): unknown {
 // table question).
 const NEEDS_CONTINUE_BUTTON = new Set(["multi", "number", "text", "table"]);
 
-export function QuestionRenderer({ step }: { step: StepId }) {
+export interface QuestionRender {
+  label: string;
+  control: ReactNode;
+  showContinue: boolean;
+  continueDisabled: boolean;
+  onContinue: () => void;
+}
+
+/**
+ * Everything IntakeFlow needs to lay out one question, without owning any
+ * positioning itself (GR-019 split the desktop layout across two panels —
+ * this hook is what makes that possible without duplicating the "what
+ * renders for this step" logic in two places).
+ */
+export function useQuestionRender(step: StepId): QuestionRender | null {
   const answers = useIntakeStore((s) => s.answers);
   const answer = useIntakeStore((s) => s.answer);
   const next = useIntakeStore((s) => s.next);
@@ -193,23 +207,11 @@ export function QuestionRenderer({ step }: { step: StepId }) {
     }
   }
 
-  const showContinue = NEEDS_CONTINUE_BUTTON.has(def.type);
-  const continueDisabled = !answered;
-
-  return (
-    <div className="flex flex-col gap-6">
-      <h2 className="text-xl font-semibold">{label}</h2>
-      {control}
-      {showContinue && (
-        <button
-          type="button"
-          disabled={continueDisabled}
-          onClick={() => next()}
-          className="min-h-11 self-start rounded-full bg-indigo-600 px-6 py-3 text-base font-medium text-white transition-opacity disabled:opacity-40"
-        >
-          Continue
-        </button>
-      )}
-    </div>
-  );
+  return {
+    label,
+    control,
+    showContinue: NEEDS_CONTINUE_BUTTON.has(def.type),
+    continueDisabled: !answered,
+    onContinue: next,
+  };
 }

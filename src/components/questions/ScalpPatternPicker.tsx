@@ -13,16 +13,15 @@ interface ScalpPatternPickerProps {
 const SHEDDING_OPTION = "Sudden excessive shedding";
 
 const REGION_STYLE = {
-  base: "fill-neutral-100 stroke-neutral-400 dark:fill-neutral-800 dark:stroke-neutral-600",
-  active:
-    "fill-indigo-400/70 stroke-indigo-600 dark:fill-indigo-500/50 dark:stroke-indigo-400",
+  base: "fill-card stroke-copper-soft",
+  active: "fill-moss/25 stroke-moss",
 };
 
 // Applied to every interactive SVG region: SVG shapes don't reliably get a
 // visible default focus ring across browsers the way <button> does, so this
 // is drawn explicitly for keyboard navigation (GR-016).
 const FOCUS_RING =
-  "cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600";
+  "cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-copper";
 
 export function ScalpPatternPicker({
   value,
@@ -168,15 +167,15 @@ export function ScalpPatternPicker({
         className={[
           "flex min-h-11 items-center gap-2 rounded-full border px-4 py-2 text-base transition-colors",
           isActive(SHEDDING_OPTION)
-            ? "border-indigo-600 bg-indigo-600 text-white"
-            : "border-neutral-300 bg-white text-neutral-800 hover:border-indigo-400 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100",
+            ? "bg-gradient-root-solid border-transparent text-white"
+            : "border-line bg-card text-ink hover:border-copper",
         ].join(" ")}
       >
         {isActive(SHEDDING_OPTION) && <IconCheck size={16} animate={false} />}
         {SHEDDING_OPTION}
       </button>
 
-      <p className="text-center text-sm text-neutral-500">
+      <p className="text-ink-soft text-center text-sm">
         {value.length > 0
           ? `Selected: ${value.join(", ")}`
           : "Tap the diagram (or the option above) to select"}

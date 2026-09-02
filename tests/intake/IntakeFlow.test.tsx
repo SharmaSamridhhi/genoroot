@@ -3,6 +3,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useIntakeStore } from "@/lib/engine/store";
 import { IntakeFlow } from "@/components/intake/IntakeFlow";
+import { fullText } from "../test-utils";
 
 const pushMock = vi.fn();
 vi.mock("next/navigation", () => ({
@@ -18,14 +19,16 @@ describe("IntakeFlow", () => {
   it("shows onboarding first, and completing it advances to the first question", async () => {
     render(<IntakeFlow />);
 
-    expect(screen.getByText("Let's get you checked in")).toBeInTheDocument();
+    expect(
+      screen.getByText(fullText("Let's get you checked in"))
+    ).toBeInTheDocument();
 
     await userEvent.type(screen.getByPlaceholderText("e.g. 32"), "34");
     await userEvent.click(screen.getByRole("radio", { name: "Male" }));
     await userEvent.click(screen.getByRole("button", { name: "Continue" }));
 
     expect(
-      screen.getByText("At what age did your hair loss begin?")
+      screen.getByText(fullText("At what age did your hair loss begin?"))
     ).toBeInTheDocument();
   });
 
@@ -48,7 +51,7 @@ describe("IntakeFlow", () => {
     // AnimatePresence's exit animation means the old step's DOM lingers briefly.
     await waitFor(() => {
       expect(
-        screen.getByText("Do you have acne or oily skin as an adult?")
+        screen.getByText(fullText("Do you have acne or oily skin as an adult?"))
       ).toBeInTheDocument();
     });
   });
@@ -64,7 +67,7 @@ describe("IntakeFlow", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText("At what age did your hair loss begin?")
+        screen.getByText(fullText("At what age did your hair loss begin?"))
       ).toBeInTheDocument();
     });
   });
