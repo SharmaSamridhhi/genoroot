@@ -1,8 +1,12 @@
 import { describe, it, expect } from "vitest";
-import { clearDependentFields, clearHabitsDependentFields } from "@/lib/rules";
+import {
+  clearProductRowDependents,
+  clearProcedureRowDependents,
+  clearHabitsDependentFields,
+} from "@/lib/rules";
 import type { Habits, ProcedureRow, ProductRow } from "@/lib/schema/types";
 
-describe("clearDependentFields", () => {
+describe("clearProductRowDependents", () => {
   it("flipping a product row's used from true to false nulls duration/helped/side_effects", () => {
     const row: ProductRow = {
       row: "Topical Minoxidil",
@@ -11,7 +15,7 @@ describe("clearDependentFields", () => {
       helped: true,
       side_effects: false,
     };
-    expect(clearDependentFields(row)).toEqual({
+    expect(clearProductRowDependents(row)).toEqual({
       row: "Topical Minoxidil",
       used: false,
       duration: null,
@@ -28,22 +32,7 @@ describe("clearDependentFields", () => {
       helped: true,
       side_effects: false,
     };
-    expect(clearDependentFields(row)).toEqual(row);
-  });
-
-  it("flipping a procedure row's done from true to false nulls sessions/helped", () => {
-    const row: ProcedureRow = {
-      row: "PRP/GFC/iPRF",
-      done: false,
-      sessions: "4-6",
-      helped: true,
-    };
-    expect(clearDependentFields(row)).toEqual({
-      row: "PRP/GFC/iPRF",
-      done: false,
-      sessions: null,
-      helped: null,
-    });
+    expect(clearProductRowDependents(row)).toEqual(row);
   });
 
   it("flipping back to true does not resurrect old stale values — starts blank", () => {
@@ -54,12 +43,45 @@ describe("clearDependentFields", () => {
       helped: null,
       side_effects: null,
     };
-    // Simulates the UI setting used:true after a prior decline; sub-fields must
-    // come back as null, not whatever they happened to be before (they were
-    // already null here since the row went through clearDependentFields once).
     const reEnabled: ProductRow = { ...declined, used: true };
-    expect(clearDependentFields(reEnabled)).toEqual(reEnabled);
+    expect(clearProductRowDependents(reEnabled)).toEqual(reEnabled);
     expect(reEnabled.duration).toBeNull();
+  });
+
+  it("regression: a row with no `used` key yet (still being filled in interactively) is never mistaken for a procedure row", () => {
+    // TableCardFlow commits a row's fields one at a time — before the lead
+    // field is answered, the row is just `{ row: "label" }`. This must never
+    // gain a stray `sessions` key (a procedure-only field) from misdetecting
+    // the row's shape.
+    const barelyStarted = {
+      row: "OTC/Medicated Shampoos",
+    } as unknown as ProductRow;
+    const result = clearProductRowDependents(barelyStarted);
+    expect(result).not.toHaveProperty("sessions");
+  });
+});
+
+describe("clearProcedureRowDependents", () => {
+  it("flipping a procedure row's done from true to false nulls sessions/helped", () => {
+    const row: ProcedureRow = {
+      row: "PRP/GFC/iPRF",
+      done: false,
+      sessions: "4-6",
+      helped: true,
+    };
+    expect(clearProcedureRowDependents(row)).toEqual({
+      row: "PRP/GFC/iPRF",
+      done: false,
+      sessions: null,
+      helped: null,
+    });
+  });
+
+  it("regression: a row with no `done` key yet is never mistaken for a product row", () => {
+    const barelyStarted = { row: "PRP/GFC/iPRF" } as unknown as ProcedureRow;
+    const result = clearProcedureRowDependents(barelyStarted);
+    expect(result).not.toHaveProperty("duration");
+    expect(result).not.toHaveProperty("side_effects");
   });
 });
 
