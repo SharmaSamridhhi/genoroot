@@ -46,7 +46,9 @@ function TableRowSummary({
 
   return (
     <div className="border-line rounded-lg border p-3">
-      {showHeader && <p className="text-ink font-medium">{rowConfig.label}</p>}
+      {showHeader && (
+        <p className="text-ink text-base font-semibold">{rowConfig.label}</p>
+      )}
       <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm">
         {rowConfig.fields.map((field) => {
           const value = rowData[field.key];

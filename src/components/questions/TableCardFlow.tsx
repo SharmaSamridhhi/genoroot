@@ -123,7 +123,7 @@ export function TableCardFlow({ rows, value, onChange }: TableCardFlowProps) {
         <HabitRowArt habitKey={row.fields[0].key} />
         <div className="flex flex-col gap-1">
           {showRowLabel && (
-            <p className="text-ink-soft text-sm font-medium">{row.label}</p>
+            <p className="text-ink text-lg font-semibold">{row.label}</p>
           )}
           <h3 className="text-ink text-2xl font-medium">{field.label}</h3>
         </div>

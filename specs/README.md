@@ -33,6 +33,7 @@ Stack: Next.js 15 (App Router, TS) + Tailwind + Framer Motion + Zustand + Vitest
 | [GR-019](./GR-019-visual-identity-redesign.md)     | Visual identity redesign ("Root to Growth")  | Done (PR #8)  | GR-016                                                 |
 | [GR-020](./GR-020-polish-and-flags.md)             | Late polish — clarity, feature flags, README | Done (PR #9)  | GR-019                                                 |
 | [GR-021](./GR-021-voice-ux-overhaul.md)            | Voice input UX overhaul                      | Done (PR #10) | GR-011, GR-012                                         |
+| [GR-022](./GR-022-polish-readability-favicon.md)   | Readability, swipe-card polish, favicon      | Done          | GR-010, GR-020                                         |
 
 ## Project-level dependency graph
 
