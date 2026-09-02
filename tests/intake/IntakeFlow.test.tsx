@@ -20,7 +20,7 @@ describe("IntakeFlow", () => {
     render(<IntakeFlow />);
 
     expect(
-      screen.getByText(fullText("Let's get you checked in"))
+      screen.getByText(fullText("Let's get your hair story started"))
     ).toBeInTheDocument();
 
     await userEvent.type(screen.getByPlaceholderText("e.g. 32"), "34");

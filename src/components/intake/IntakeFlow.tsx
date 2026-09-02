@@ -1,18 +1,20 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useIntakeStore } from "@/lib/engine/store";
 import { getProgress, isComplete } from "@/lib/engine/completeness";
 import { motionTransition } from "@/lib/motion/tokens";
+import { playStepTick } from "@/lib/sound";
 import { IconArrowLeft } from "@/components/icons/manifest";
 import { OnboardingStep } from "./OnboardingStep";
 import { ProgressBar } from "./ProgressBar";
 import { SectionHeader } from "./SectionHeader";
+import { SoundToggle } from "./SoundToggle";
 import { useQuestionRender } from "./useQuestionRender";
 import { renderEmphasis } from "./renderEmphasis";
-import { RootLineArt } from "./RootLineArt";
+import { QuestionArt } from "./QuestionArt";
 
 export function IntakeFlow() {
   const currentStep = useIntakeStore((s) => s.currentStep);
@@ -24,6 +26,20 @@ export function IntakeFlow() {
   const progress = getProgress(profile, answers);
   const complete = isComplete(profile, answers);
   const question = useQuestionRender(currentStep);
+  const stepKey = `${currentStep.section}-${currentStep.subKey ?? currentStep.questionKey}`;
+
+  // A soft tick on every step change (forward or back) — skips the very
+  // first render so landing on the app doesn't play a sound unprompted.
+  const previousStepKeyRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (
+      previousStepKeyRef.current !== null &&
+      previousStepKeyRef.current !== stepKey
+    ) {
+      playStepTick();
+    }
+    previousStepKeyRef.current = stepKey;
+  }, [stepKey]);
 
   useEffect(() => {
     if (complete) {
@@ -36,8 +52,6 @@ export function IntakeFlow() {
   }
 
   if (!question) return null;
-
-  const stepKey = `${currentStep.section}-${currentStep.subKey ?? currentStep.questionKey}`;
 
   return (
     <div className="relative mx-auto flex min-h-screen max-w-md flex-col gap-10 px-4 py-8 lg:max-w-6xl lg:justify-center lg:gap-0 lg:px-16 lg:py-12">
@@ -56,6 +70,9 @@ export function IntakeFlow() {
             <IconArrowLeft size={18} animate={false} />
           </button>
           <SectionHeader section={currentStep.section} />
+          <div className="ml-auto">
+            <SoundToggle />
+          </div>
         </div>
       </div>
 
@@ -73,11 +90,11 @@ export function IntakeFlow() {
         transition={motionTransition()}
         className="relative flex flex-col gap-10 lg:mt-28 lg:grid lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16"
       >
-        <div className="lg:border-line/70 relative flex flex-col gap-4 lg:min-h-[22rem] lg:justify-center lg:border-r lg:pr-16">
+        <div className="lg:border-line/70 relative flex flex-col gap-6 lg:min-h-[22rem] lg:justify-center lg:border-r lg:pr-16">
           <h2 className="text-ink font-sans text-2xl leading-tight font-light lg:text-[2.75rem]">
             {renderEmphasis(question.label)}
           </h2>
-          <RootLineArt />
+          <QuestionArt questionKey={currentStep.questionKey} />
         </div>
 
         <div className="flex flex-col gap-6">

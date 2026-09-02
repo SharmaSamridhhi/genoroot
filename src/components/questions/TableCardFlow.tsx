@@ -83,17 +83,24 @@ export function TableCardFlow({ rows, value, onChange }: TableCardFlowProps) {
   const canGoBack = clampedRowIndex > 0 || clampedFieldIndex > 0;
   const currentValue = rowAnswer[field.key];
 
+  // The habits table's lead field always shares its row's label exactly
+  // ("Do you smoke?" as both) — showing it twice (once tiny above, once as
+  // the real question) read as confusing rather than as context, so it's
+  // only shown separately when it actually adds information (product/
+  // procedure rows, where the row is the product name, not the question).
+  const showRowLabel = row.label !== field.label;
+
   return (
     <div className="flex flex-col gap-4">
-      <div className="text-ink-soft flex items-center justify-between text-sm">
-        <span>
-          Row {clampedRowIndex + 1} of {rows.length} · {row.label}
+      <div className="flex items-center justify-between">
+        <span className="text-ink-soft font-mono text-xs tracking-wide uppercase">
+          Row {clampedRowIndex + 1} of {rows.length}
         </span>
         {canGoBack && (
           <button
             type="button"
             onClick={goBack}
-            className="flex min-h-11 items-center px-2 underline underline-offset-2"
+            className="flex min-h-11 items-center px-2 text-sm underline underline-offset-2"
           >
             Back
           </button>
@@ -114,7 +121,12 @@ export function TableCardFlow({ rows, value, onChange }: TableCardFlowProps) {
         className="relative flex flex-col gap-4 overflow-hidden"
       >
         <HabitRowArt habitKey={row.fields[0].key} />
-        <h3 className="text-lg font-medium">{field.label}</h3>
+        <div className="flex flex-col gap-1">
+          {showRowLabel && (
+            <p className="text-ink-soft text-sm font-medium">{row.label}</p>
+          )}
+          <h3 className="text-ink text-2xl font-medium">{field.label}</h3>
+        </div>
 
         {field.type === "yesno" && (
           <YesNoSwipeCard

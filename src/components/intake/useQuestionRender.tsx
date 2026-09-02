@@ -23,6 +23,7 @@ import {
   withRowLabels,
 } from "@/components/questions";
 import { questionLabel } from "./question-copy";
+import { ENABLE_SCALP_DIAGRAM } from "@/lib/featureFlags";
 
 type RenderableDef = Question | { type: "single" | "text"; options?: string[] };
 
@@ -137,7 +138,7 @@ export function useQuestionRender(step: StepId): QuestionRender | null {
       break;
     case "multi":
       control =
-        step.questionKey === "pattern" ? (
+        step.questionKey === "pattern" && ENABLE_SCALP_DIAGRAM ? (
           <ScalpPatternPicker
             value={(value as string[] | null) ?? []}
             onChange={setValue}
