@@ -6,7 +6,7 @@ import type {
   ProcedureRow,
   ProductRow,
 } from "@/lib/schema/types";
-import { getVisibleSteps, type StepId } from "./steps";
+import { getVisibleSteps, ONBOARDING_STEP, type StepId } from "./steps";
 
 // Uniform completeness rule across every question type: undefined/null means
 // unanswered, anything else (including false, 0, or an empty array) counts as an
@@ -100,6 +100,25 @@ export function isComplete(
   return steps.every(
     (s) => s.section === "onboarding" || isStepAnswered(s, answers)
   );
+}
+
+/**
+ * Where to resume an intake after a page reload (GR-015). Deliberately
+ * recomputed from persisted profile+answers rather than trusting a persisted
+ * `currentStep` verbatim — that value could point at a step that's no longer
+ * valid (e.g. if branching/schema logic ever changes), where recomputing the
+ * first unanswered step always lands somewhere safe.
+ */
+export function getResumeStep(
+  profile: PatientProfile | null,
+  answers: Answers
+): StepId {
+  if (!profile) return ONBOARDING_STEP;
+  const steps = getVisibleSteps(profile, answers);
+  const firstUnanswered = steps.find(
+    (s) => s.section !== "onboarding" && !isStepAnswered(s, answers)
+  );
+  return firstUnanswered ?? steps[steps.length - 1];
 }
 
 export interface Progress {
