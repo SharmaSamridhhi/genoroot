@@ -38,7 +38,7 @@ Tasks 1–4 are fully independent and can be built in parallel by separate agent
 
 ## Status
 
-In Progress
+Done — [PR #3](https://github.com/SharmaSamridhhi/genoroot/pull/3)
 
 ## Acceptance Criteria
 

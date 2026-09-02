@@ -41,7 +41,7 @@ Tasks 1–5 are independent of each other and can be built in parallel once GR-0
 
 ## Status
 
-In Progress
+Done — [PR #6](https://github.com/SharmaSamridhhi/genoroot/pull/6)
 
 ## Acceptance Criteria
 

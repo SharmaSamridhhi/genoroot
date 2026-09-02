@@ -36,7 +36,7 @@ graph TD
 
 ## Status
 
-In Progress
+Done — [PR #6](https://github.com/SharmaSamridhhi/genoroot/pull/6)
 
 ## Acceptance Criteria
 

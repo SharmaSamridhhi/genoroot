@@ -51,7 +51,7 @@ Tasks 1–6 are fully independent fixtures and can be written in parallel by sep
 
 ## Status
 
-In Progress
+Done — [PR #2](https://github.com/SharmaSamridhhi/genoroot/pull/2)
 
 ## Acceptance Criteria
 

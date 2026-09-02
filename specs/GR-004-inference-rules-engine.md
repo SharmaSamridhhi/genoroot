@@ -68,7 +68,7 @@ Tasks 1 and 2 are independent of each other. Task 4 is optional/independent and 
 
 ## Status
 
-In Progress
+Done — [PR #2](https://github.com/SharmaSamridhhi/genoroot/pull/2)
 
 ## Acceptance Criteria
 
