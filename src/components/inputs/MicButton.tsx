@@ -9,7 +9,9 @@ interface MicButtonProps {
   isSupported: boolean;
   isListening: boolean;
   error: string | null;
-  /** 0–1 live mic level, for the bar visualizer — see useVoiceInput. */
+  /** 0–1 live mic level, for a subtle glow synced to loudness while
+   * listening — the full per-band visualizer lives in VoiceVisualizer,
+   * rendered separately by the caller with more room to work with. */
   level?: number;
   onStart: () => void;
   onStop: () => void;
@@ -22,28 +24,6 @@ function useShortcutLabel(): string {
     setLabel(isMac ? "⌥M" : "Alt+M");
   }, []);
   return label;
-}
-
-/** Three small bars reacting to the live mic level — a real amplitude
- * visualizer, not a generic "something is happening" pulse. Each bar has a
- * different sensitivity so it reads as a wave rather than three identical
- * blocks moving in lockstep. */
-function LevelBars({ level }: { level: number }) {
-  const heights = [0.35 + level * 0.5, 0.3 + level * 0.9, 0.4 + level * 0.6];
-  return (
-    <div className="flex h-4 items-end gap-[3px]" aria-hidden="true">
-      {heights.map((h, i) => (
-        <span
-          key={i}
-          className="w-[3px] rounded-full bg-red-500"
-          style={{
-            height: `${Math.min(1, h) * 100}%`,
-            transition: "height 70ms linear",
-          }}
-        />
-      ))}
-    </div>
-  );
 }
 
 // Never rendered by the caller when isSupported is false — this component
@@ -102,8 +82,15 @@ export function MicButton({
               ? { duration: 1.1, repeat: Infinity, ease: "easeInOut" }
               : motionTransition()
           }
+          style={
+            isListening
+              ? {
+                  boxShadow: `0 0 0 ${4 + level * 10}px rgba(239,68,68,${0.08 + level * 0.12})`,
+                }
+              : undefined
+          }
           className={[
-            "flex h-11 w-11 shrink-0 items-center justify-center rounded-full border",
+            "flex h-11 w-11 shrink-0 items-center justify-center rounded-full border transition-shadow",
             isListening
               ? "border-red-500 bg-red-50 text-red-600"
               : "border-line text-ink-soft hover:border-copper",
@@ -123,8 +110,6 @@ export function MicButton({
           {tooltip}
         </span>
       </div>
-
-      {isListening && <LevelBars level={level} />}
 
       {error && (
         <span className="max-w-[10rem] text-right text-xs text-red-500">

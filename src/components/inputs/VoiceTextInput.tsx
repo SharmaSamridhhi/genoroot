@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { TextInput } from "./TextInput";
 import { MicButton } from "./MicButton";
+import { VoiceVisualizer } from "./VoiceVisualizer";
 import { useVoiceInput } from "@/lib/voice/useVoiceInput";
 import { interpretTranscript } from "@/lib/voice/interpretTranscript";
 import { ENABLE_VOICE } from "@/lib/featureFlags";
@@ -25,8 +26,16 @@ export function VoiceTextInput({
   placeholder,
   multiline,
 }: VoiceTextInputProps) {
-  const { isSupported, isListening, transcript, error, level, start, stop } =
-    useVoiceInput();
+  const {
+    isSupported,
+    isListening,
+    transcript,
+    error,
+    levels,
+    level,
+    start,
+    stop,
+  } = useVoiceInput();
   const [suggestion, setSuggestion] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
 
@@ -86,9 +95,7 @@ export function VoiceTextInput({
       </div>
 
       {isListening && (
-        <p className="text-ink-soft text-sm" aria-live="polite">
-          {transcript || "Listening…"}
-        </p>
+        <VoiceVisualizer levels={levels} transcript={transcript} />
       )}
 
       {processing && <p className="text-ink-soft text-sm">Cleaning that up…</p>}

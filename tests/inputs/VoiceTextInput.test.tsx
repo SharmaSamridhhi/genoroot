@@ -22,6 +22,7 @@ function mockListening(transcript: string) {
     isListening: state.isListening,
     transcript,
     error: null,
+    levels: [],
     level: 0,
     start: vi.fn(),
     stop,

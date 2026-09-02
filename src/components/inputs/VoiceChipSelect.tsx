@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChipSelect } from "./ChipSelect";
 import { MicButton } from "./MicButton";
+import { VoiceVisualizer } from "./VoiceVisualizer";
 import { useVoiceInput } from "@/lib/voice/useVoiceInput";
 import { interpretTranscript } from "@/lib/voice/interpretTranscript";
 import { applyExclusiveSelection } from "@/lib/rules";
@@ -28,8 +29,16 @@ export function VoiceChipSelect({
   value,
   onChange,
 }: VoiceChipSelectProps) {
-  const { isSupported, isListening, transcript, error, level, start, stop } =
-    useVoiceInput();
+  const {
+    isSupported,
+    isListening,
+    transcript,
+    error,
+    levels,
+    level,
+    start,
+    stop,
+  } = useVoiceInput();
   const [suggested, setSuggested] = useState<string[]>([]);
   const [processing, setProcessing] = useState(false);
 
@@ -108,9 +117,7 @@ export function VoiceChipSelect({
       </div>
 
       {isListening && (
-        <p className="text-ink-soft text-sm" aria-live="polite">
-          {transcript || "Listening…"}
-        </p>
+        <VoiceVisualizer levels={levels} transcript={transcript} />
       )}
 
       {processing && <p className="text-ink-soft text-sm">Matching that…</p>}
