@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { TextInput } from "./TextInput";
 import { MicButton } from "./MicButton";
+import { VoiceVisualizer } from "./VoiceVisualizer";
 import { useVoiceInput } from "@/lib/voice/useVoiceInput";
 import { interpretTranscript } from "@/lib/voice/interpretTranscript";
 import { ENABLE_VOICE } from "@/lib/featureFlags";
@@ -25,18 +26,35 @@ export function VoiceTextInput({
   placeholder,
   multiline,
 }: VoiceTextInputProps) {
-  const { isSupported, isListening, transcript, error, start, stop } =
-    useVoiceInput();
+  const {
+    isSupported,
+    isListening,
+    transcript,
+    error,
+    levels,
+    level,
+    start,
+    stop,
+  } = useVoiceInput();
   const [suggestion, setSuggestion] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
 
+  // Same reasoning as VoiceChipSelect: a high-confidence cleanup of the
+  // transcript fills the field directly — it's still a normal, editable text
+  // input afterward, so nothing is lost by skipping the extra confirm tap.
+  // Only a low-confidence result asks for it.
   async function handleStop() {
     stop();
     if (!transcript.trim()) return;
     setProcessing(true);
     const result = await interpretTranscript(transcript, "free_text");
     setProcessing(false);
-    setSuggestion(result.suggestedText ?? transcript);
+    const text = result.suggestedText ?? transcript;
+    if (result.confidence === "high") {
+      onChange(text);
+    } else {
+      setSuggestion(text);
+    }
   }
 
   function acceptSuggestion() {
@@ -70,15 +88,14 @@ export function VoiceTextInput({
           isSupported={isSupported}
           isListening={isListening}
           error={error}
+          level={level}
           onStart={start}
           onStop={handleStop}
         />
       </div>
 
       {isListening && (
-        <p className="text-ink-soft text-sm" aria-live="polite">
-          {transcript || "Listening…"}
-        </p>
+        <VoiceVisualizer levels={levels} transcript={transcript} />
       )}
 
       {processing && <p className="text-ink-soft text-sm">Cleaning that up…</p>}

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChipSelect } from "./ChipSelect";
 import { MicButton } from "./MicButton";
+import { VoiceVisualizer } from "./VoiceVisualizer";
 import { useVoiceInput } from "@/lib/voice/useVoiceInput";
 import { interpretTranscript } from "@/lib/voice/interpretTranscript";
 import { applyExclusiveSelection } from "@/lib/rules";
@@ -16,9 +17,11 @@ interface VoiceChipSelectProps {
   onChange: (value: string | string[]) => void;
 }
 
-// A spoken answer never writes straight to the selection — it only ever
-// produces a *suggestion* the patient explicitly taps to accept (GR-012's
-// confirm-UI requirement applies to the local-match tier too, not just Groq).
+// A high-confidence spoken match (an exact/near-exact hit, the common case)
+// commits straight to the selection — asking the patient to then tap a "did
+// you mean" chip to confirm what they just clearly said defeats the point of
+// using their voice at all. Only a genuinely uncertain match (confidence
+// "low") falls back to an explicit tap-to-confirm suggestion.
 export function VoiceChipSelect({
   questionKey,
   options,
@@ -26,25 +29,20 @@ export function VoiceChipSelect({
   value,
   onChange,
 }: VoiceChipSelectProps) {
-  const { isSupported, isListening, transcript, error, start, stop } =
-    useVoiceInput();
+  const {
+    isSupported,
+    isListening,
+    transcript,
+    error,
+    levels,
+    level,
+    start,
+    stop,
+  } = useVoiceInput();
   const [suggested, setSuggested] = useState<string[]>([]);
   const [processing, setProcessing] = useState(false);
 
-  async function handleStop() {
-    stop();
-    if (!transcript.trim()) return;
-    setProcessing(true);
-    const result = await interpretTranscript(
-      transcript,
-      "choice_match",
-      options
-    );
-    setProcessing(false);
-    setSuggested(result.suggestedOptions ?? []);
-  }
-
-  function acceptSuggestion(option: string) {
+  function commitOption(option: string) {
     if (mode === "single") {
       onChange(option);
     } else {
@@ -56,6 +54,28 @@ export function VoiceChipSelect({
         )
       );
     }
+  }
+
+  async function handleStop() {
+    stop();
+    if (!transcript.trim()) return;
+    setProcessing(true);
+    const result = await interpretTranscript(
+      transcript,
+      "choice_match",
+      options
+    );
+    setProcessing(false);
+    const matched = result.suggestedOptions ?? [];
+    if (result.confidence === "high" && matched.length > 0) {
+      matched.forEach(commitOption);
+    } else {
+      setSuggested(matched);
+    }
+  }
+
+  function acceptSuggestion(option: string) {
+    commitOption(option);
     setSuggested((current) => current.filter((o) => o !== option));
   }
 
@@ -90,15 +110,14 @@ export function VoiceChipSelect({
           isSupported={isSupported}
           isListening={isListening}
           error={error}
+          level={level}
           onStart={start}
           onStop={handleStop}
         />
       </div>
 
       {isListening && (
-        <p className="text-ink-soft text-sm" aria-live="polite">
-          {transcript || "Listening…"}
-        </p>
+        <VoiceVisualizer levels={levels} transcript={transcript} />
       )}
 
       {processing && <p className="text-ink-soft text-sm">Matching that…</p>}
