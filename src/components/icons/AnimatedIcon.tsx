@@ -32,6 +32,11 @@ export function AnimatedIcon({
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}
+      // Every current usage is either paired with adjacent visible text (section
+      // headers, chips) or sits inside a button that already carries its own
+      // aria-label (Back, mic) — the icon itself would be redundant/confusing to
+      // a screen reader either way, so it's hidden from the accessibility tree.
+      aria-hidden="true"
       initial={animate ? { scale: 0.6, opacity: 0 } : false}
       animate={{ scale: 1, opacity: 1 }}
       transition={motionTransition()}

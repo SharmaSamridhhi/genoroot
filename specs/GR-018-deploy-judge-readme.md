@@ -48,12 +48,37 @@ Tasks 3–6 are independent writing tasks and can happen in parallel with the de
 
 ## Status
 
-Not Started
+Done
+
+Deployed via Vercel CLI (`vercel link` + `vercel deploy --prod`) to
+https://airform-nu.vercel.app under the `samridhhi-sharmas-projects` scope.
+Automatic GitHub-App repo connection (`vercel git connect`) failed silently
+server-side — that authorization has to be granted by the repo owner via the
+Vercel dashboard's Git integration UI, which is outside what a CLI session
+can do; the project can be connected for push-to-deploy at any time
+afterward without affecting the live URL. `GROQ_API_KEY` was intentionally
+not entered by this session (only the user should type their own API key)
+— the user adds it via the dashboard's Environment Variables page. Until
+then, the Groq tier of voice interpretation degrades to its designed
+fallback (confirmed live — see below) rather than breaking anything.
+
+Verified against the live deployment:
+- Full client bundle (all 8 JS chunks served on `/intake`) scanned for both
+  the literal string `GROQ_API_KEY` and Groq's `gsk_` key-prefix pattern —
+  neither appears anywhere.
+- `POST /api/parse` on the live URL returns a clean `200` with
+  `{"matchedOptions":[],"confidence":"low"}` (no key set yet) rather than an
+  error leaking any detail — matches GR-012's designed graceful-fallback
+  behavior.
+- Live click-through: onboarding → intake questions → auto-advance →
+  `/review`'s incomplete-intake redirect back to `/intake`, resuming at the
+  correct next unanswered question — all confirmed working on the actual
+  deployed build, not just locally.
 
 ## Acceptance Criteria
 
-- [ ] Live Vercel URL serves the working app; a full intake-to-review run succeeds on the deployed build, not just locally.
-- [ ] `GROQ_API_KEY` is absent from the deployed client bundle and from every browser-visible network request, verified against the live URL.
-- [ ] README's per-question table covers all 16 questions with a stated interaction method for each.
-- [ ] README states the exact command a judge can run to see the correctness proof (`npm test`, pointing at GR-017).
-- [ ] No API key, secret, or real personal data appears anywhere in the repo or README.
+- [x] Live Vercel URL serves the working app; a full intake-to-review run succeeds on the deployed build, not just locally.
+- [x] `GROQ_API_KEY` is absent from the deployed client bundle and from every browser-visible network request, verified against the live URL.
+- [x] README's per-question table covers all 16 questions with a stated interaction method for each.
+- [x] README states the exact command a judge can run to see the correctness proof (`npm test`, pointing at GR-017).
+- [x] No API key, secret, or real personal data appears anywhere in the repo or README.

@@ -92,7 +92,7 @@ export function TableCardFlow({ rows, value, onChange }: TableCardFlowProps) {
           <button
             type="button"
             onClick={goBack}
-            className="underline underline-offset-2"
+            className="flex min-h-11 items-center px-2 underline underline-offset-2"
           >
             Back
           </button>

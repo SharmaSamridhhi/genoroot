@@ -27,9 +27,9 @@ Stack: Next.js 15 (App Router, TS) + Tailwind + Framer Motion + Zustand + Vitest
 | [GR-013](./GR-013-consent-screen.md)               | Consent screen (Q16)                     | Done (PR #4) | GR-007, GR-008                                         |
 | [GR-014](./GR-014-review-output-screen.md)         | Review / "page 2" output screen          | Done (PR #6) | GR-002, GR-005                                         |
 | [GR-015](./GR-015-local-persistence.md)            | Local persistence (resume/reset)         | Done (PR #6) | GR-002, GR-003                                         |
-| [GR-016](./GR-016-responsive-accessibility.md)     | Responsive & accessibility pass          | Not Started  | GR-006, GR-007, GR-009, GR-010, GR-011, GR-013, GR-014 |
+| [GR-016](./GR-016-responsive-accessibility.md)     | Responsive & accessibility pass          | Done (PR #7) | GR-006, GR-007, GR-009, GR-010, GR-011, GR-013, GR-014 |
 | [GR-017](./GR-017-persona-test-suite.md)           | Persona test suite (correctness proof)   | Done (PR #2) | GR-002, GR-003, GR-004, GR-005                         |
-| [GR-018](./GR-018-deploy-judge-readme.md)          | Deploy + judge-facing README             | Not Started  | all functional specs                                   |
+| [GR-018](./GR-018-deploy-judge-readme.md)          | Deploy + judge-facing README             | Done (PR #7) | all functional specs                                   |
 
 ## Project-level dependency graph
 

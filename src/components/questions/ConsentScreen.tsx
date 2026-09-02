@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { IconShield } from "@/components/icons/manifest";
+import { motionTransition } from "@/lib/motion/tokens";
 
 interface ConsentScreenProps {
   value: boolean | null;
@@ -32,6 +33,7 @@ export function ConsentScreen({ value, onChange }: ConsentScreenProps) {
           type="button"
           onClick={() => onChange(false)}
           whileTap={{ scale: 0.98 }}
+          transition={motionTransition(0.15)}
           aria-pressed={value === false}
           className={[
             "min-h-11 flex-1 rounded-xl border px-6 py-3 text-base font-medium transition-colors",
@@ -46,6 +48,7 @@ export function ConsentScreen({ value, onChange }: ConsentScreenProps) {
           type="button"
           onClick={() => onChange(true)}
           whileTap={{ scale: 0.98 }}
+          transition={motionTransition(0.15)}
           aria-pressed={value === true}
           className={[
             "min-h-11 flex-1 rounded-xl border px-6 py-3 text-base font-medium transition-colors",
