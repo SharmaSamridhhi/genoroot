@@ -193,7 +193,13 @@ export function QuestionArt({ questionKey }: { questionKey: string }) {
   return (
     <motion.div
       key={questionKey}
-      className="pointer-events-none absolute -right-6 -bottom-4 hidden h-56 w-56 opacity-60 lg:block lg:h-64 lg:w-64"
+      // Normal flow, not absolutely positioned over the headline — a fixed
+      // overlap position looked fine for some headline lengths and badly
+      // collided with the text for others (a short 2-line headline centers
+      // higher in the panel, right where a bottom-anchored icon reached up
+      // to). Sitting below the text in flow guarantees no overlap regardless
+      // of how many lines the headline wraps to.
+      className="pointer-events-none ml-auto hidden h-32 w-32 opacity-60 lg:block lg:h-40 lg:w-40"
       style={{ color: `var(--color-${color})` }}
       initial={{ opacity: 0 }}
       animate={
