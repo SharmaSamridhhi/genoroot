@@ -25,18 +25,27 @@ export function VoiceTextInput({
   placeholder,
   multiline,
 }: VoiceTextInputProps) {
-  const { isSupported, isListening, transcript, error, start, stop } =
+  const { isSupported, isListening, transcript, error, level, start, stop } =
     useVoiceInput();
   const [suggestion, setSuggestion] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
 
+  // Same reasoning as VoiceChipSelect: a high-confidence cleanup of the
+  // transcript fills the field directly — it's still a normal, editable text
+  // input afterward, so nothing is lost by skipping the extra confirm tap.
+  // Only a low-confidence result asks for it.
   async function handleStop() {
     stop();
     if (!transcript.trim()) return;
     setProcessing(true);
     const result = await interpretTranscript(transcript, "free_text");
     setProcessing(false);
-    setSuggestion(result.suggestedText ?? transcript);
+    const text = result.suggestedText ?? transcript;
+    if (result.confidence === "high") {
+      onChange(text);
+    } else {
+      setSuggestion(text);
+    }
   }
 
   function acceptSuggestion() {
@@ -70,6 +79,7 @@ export function VoiceTextInput({
           isSupported={isSupported}
           isListening={isListening}
           error={error}
+          level={level}
           onStart={start}
           onStop={handleStop}
         />
