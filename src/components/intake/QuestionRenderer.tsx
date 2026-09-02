@@ -7,9 +7,9 @@ import { isStepAnswered } from "@/lib/engine/completeness";
 import { INTAKE_SCHEMA, type Question } from "@/lib/schema/intake-schema";
 import type { Answers } from "@/lib/schema/types";
 import {
-  ChipSelect,
   NumberInput,
-  TextInput,
+  VoiceChipSelect,
+  VoiceTextInput,
   YesNoSwipeCard,
 } from "@/components/inputs";
 import {
@@ -112,7 +112,7 @@ export function QuestionRenderer({ step }: { step: StepId }) {
       break;
     case "single":
       control = (
-        <ChipSelect
+        <VoiceChipSelect
           questionKey={step.subKey ?? step.questionKey}
           options={def.options ?? []}
           mode="single"
@@ -129,7 +129,7 @@ export function QuestionRenderer({ step }: { step: StepId }) {
             onChange={setValue}
           />
         ) : (
-          <ChipSelect
+          <VoiceChipSelect
             questionKey={step.questionKey}
             options={def.options ?? []}
             mode="multi"
@@ -154,7 +154,7 @@ export function QuestionRenderer({ step }: { step: StepId }) {
       break;
     case "text":
       control = (
-        <TextInput
+        <VoiceTextInput
           value={(value as string | null) ?? ""}
           onChange={setValue}
           placeholder="Type your answer…"
